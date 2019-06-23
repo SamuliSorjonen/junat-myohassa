@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getVr();
     getStationsToArray();
 }, false);
+
 var paramsString = window.location.search;
 var searchParams = new URLSearchParams(paramsString);
 
@@ -21,16 +22,7 @@ function getStationsToArray() {
         })
 }
 
-function createNode(element) {
-    return document.createElement(element); // Create the type of element you pass in the parameters
-}
 
-function append(parent, el) {
-    return parent.appendChild(el); // Append the second parameter(element) to the first one
-}
-
-
-// const getButton = document.getElementById("getButton").addEventListener("click", getVr);
 const trainTable = document.getElementById("trainTable");
 
 
@@ -40,8 +32,9 @@ function getVr() {
     fetch(url)
         .then(response => response.json())
         .then(response => response.filter(value => value.trainCategory !== "Shunting"))
+        .then(response => response.filter(value => value.trainCategory !== "Cargo"))
         .then( response => response.sort((a,b) =>
-            new Date(b.timeTableRows[0].scheduledTime) - new Date(a.timeTableRows[0].scheduledTime)))
+            new Date(b.timeTableRows[findCurrentStation(b)].scheduledTime) - new Date(a.timeTableRows[findCurrentStation(a)].scheduledTime)))
         .then(response => renderData(response))
         .catch(error => console.log(error));
 }
@@ -49,7 +42,7 @@ function getVr() {
 function findCurrentStation(data) {
     let currentStationIndex = 0;
     for (let i = 0; i < data.timeTableRows.length; i++) {
-        if (data.timeTableRows[i].stationShortCode === city) {
+        if (data.timeTableRows[i].stationShortCode === city && data.timeTableRows[i].type === "DEPARTURE") {
             currentStationIndex = i
             break;
         }
@@ -61,7 +54,7 @@ let traindata = [];
 function renderData(data) {
     trainTable.innerHTML = ""
     traindata = data.map(x => x)
-    
+
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
 
@@ -70,13 +63,14 @@ function renderData(data) {
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
         let a = data.timeTableRows[currentStationIndex].scheduledTime;
-        let scheduledTime = new Date(a);
+        let scheduledTime = new Date(a).toLocaleString("fi", optiot);;
 
-        let b = data.timeTableRows[currentStationIndex].actualTime;
-        let estimatedTime = (b === undefined) ? scheduledTime : new Date(b);
+        let b = data.timeTableRows[currentStationIndex].liveEstimateTime;
+        let estimatedTime = new Date(b).toLocaleString("fi", optiot);;
+        estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
 
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
-        let arrivalTime = new Date(c);
+        let arrivalTime = new Date(c).toLocaleString("fi", optiot);
 
         let stationCode = data.timeTableRows[currentStationIndex].stationShortCode
         let stationName = stations[stationShorts.indexOf(stationCode)]
@@ -94,17 +88,18 @@ function renderData(data) {
         let cell2 = row.insertCell(1);
         let cell3 = row.insertCell(2);
         let cell4 = row.insertCell(3);
-
         let cell5 = row.insertCell(4);
-        cell1.innerHTML = data.trainType + data.trainNumber
+        let cell6 = row.insertCell(5);
 
-        cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">' + stationName + '</a>'
+        cell1.innerHTML = data.trainType + data.trainNumber
+        cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
+            + stationName + '</a>'
         cell3.innerHTML = '<a href="?city=' + data.timeTableRows[lastIndexOfTimeTable].stationShortCode + '">'
             + lastStationName + '</a>';
-        cell4.innerHTML = scheduledTime.toLocaleString("fi", optiot)
-
-        cell5.innerHTML = arrivalTime.toLocaleString("fi", optiot);
-
+        cell4.innerHTML = scheduledTime
+        cell5.innerHTML = arrivalTime
+        cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
+        cell6.style.color = "red";
     })
 }
 
