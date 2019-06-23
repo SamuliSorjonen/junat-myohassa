@@ -1,6 +1,8 @@
 body {
     font-family: "Arial Black";
     margin: 0px;
+    flex: fit-content;
+    flex-direction: row;
 }
 
 tr:hover {
@@ -9,16 +11,20 @@ tr:hover {
     background-color: darkgreen!important;
     color: white!important;
 }
-th tr:nth-child(even) {
-    background-color: forestgreen;
-    color: black;
+/*th tr:nth-child(even) {*/
+/*    background-color: forestgreen;*/
+/*    color: black;*/
+/*}*/
+
+#trainContainer {
+    overflow-x:auto;
+
 }
 table {
+    table-layout: auto;
     border-collapse: collapse;
     display: table;
     border-spacing: 0;
-    /*flex: fit-content;*/
-    /*flex-direction: row;*/
     /*margin: 20px 50px;*/
     width: 100%;
 }
@@ -31,9 +37,19 @@ th, td {
 
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+a:hover {
+
+}
+
 tr:nth-child(even), thead {
-    background-color: forestgreen;
-    color: white;
+    background-color: forestgreen!important;
+    color: white!important;
 }
 
 .container {
