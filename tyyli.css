@@ -10,9 +10,10 @@ body {
     overflow-x:auto;
 
 }
-tr:hover {
-    /*border: 1px solid forestgreen;*/
-    /*border-inline: black 1px solid;*/
+td:hover {
+    /*border-bottom: 2px solid black;*/
+    /*border-top: 2px solid black;*/
+    /*border-inline: black 10px solid;*/
     background-color: darkgreen!important;
     color: ghostwhite!important;
 }
@@ -29,6 +30,7 @@ table {
 
 
 th, td {
+    box-sizing: border-box;
     text-align: left;
     padding: 8px;
     border-spacing: 0;
@@ -70,7 +72,7 @@ tr:nth-child(even), thead {
     color: ghostwhite;
     display: block;
     width: 100%;
-    border-bottom: 1px solid white;
+    /*border-bottom: 1px solid white;*/
 }
 
 .header:hover {
