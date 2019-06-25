@@ -44,7 +44,7 @@ document.getElementById("time").addEventListener("change", function () {
     console.log(timeinput);
 });
 
-var lista = document.getElementById("lista"); // oikeasti siis tbody
+var lista = document.getElementById("trainTable"); // oikeasti siis tbody
 var xhr = new XMLHttpRequest();
 var arrivalStation = '';
 var departureStation = '';
@@ -107,7 +107,7 @@ function haedata() {
     arrivalStation = document.getElementById("arrival").value;
     departureStation = document.getElementById("departure").value;
     //xhr.open('get', baseurl+loppuurl+departureStation+"/"+arrivalStation);
-    xhr.open('get', baseurl+loppuurl+departureStation+"/"+arrivalStation+"?startDate="+input+"T"+timeinput+":00.564Z");
+    xhr.open('get', baseurl+loppuurl+departureStation+"/"+arrivalStation+"?startDate="+input+"T"+timeinput+":00Z");
     console.log(baseurl+loppuurl+departureStation+"/"+arrivalStation+"?startDate="+input+"T"+timeinput+":00+02:00");
     xhr.send();
 }
