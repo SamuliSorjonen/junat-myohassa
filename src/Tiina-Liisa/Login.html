@@ -13,23 +13,27 @@
     </div>
 
     <div class="container">
-        <label for="name"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+        <h2>Kirjautuminen</h2>
+        <label for="name"><b>Käyttäjätunnus</b></label>
+        <input type="text" placeholder="Kirjoita käyttäjätunnus" name="uname" required>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+        <label for="password"><b>Salasana</b></label>
+        <input type="password" placeholder="Kirjoita salasana" name="psw" required>
 
-        <button type="submit">Login</button>
+        <button type="submit">Kirjaudu</button>
+
+
         <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
+            <input type="checkbox" checked="checked" name="Muista minut"> Muista minut
         </label>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-        <button type="button" class="cancelbtn">Cancel</button>
-        <span class="psw">Forgot <a href="#">password?</a></span>
+        <!--<input type="button" value="Kirjaudu" onclick="avaaSivu()">-->
+        <input type="button" value="Rekisteröidy" onclick="rekisteröidy()">
+        <button type="button" class="cancelbtn">Peruuta</button>
+        <span class="psw">Unohditko <a href="#">salasanan?</a></span>
     </div>
-    <div id="result"></div>
 </form>
 <script src="Login.js"></script>
 </body>
