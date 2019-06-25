@@ -44,7 +44,7 @@ document.getElementById("time").addEventListener("change", function () {
     console.log(timeinput);
 });
 
-var lista = document.getElementById("lista"); // oikeasti siis tbody
+var lista = document.getElementById("trainTable"); // oikeasti siis tbody
 var xhr = new XMLHttpRequest();
 var arrivalStation = '';
 var departureStation = '';
