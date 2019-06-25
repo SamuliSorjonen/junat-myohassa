@@ -23,15 +23,15 @@ function getStationsToArray() {
 }
 
 
-let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station='+city;
+let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=50&departed_trains=0&departing_trains=0&station='+city;
 
 const trainTable = document.getElementById("trainTable");
 const departureLink = document.getElementById("departure")
 
 const arrivalLink = document.getElementById("arrival")
 
-departureLink.innerHTML = '<a href="?city=' + city + '"> Lähtevät </a>';
-arrivalLink.innerHTML = '<a href="../arrivals/?city=' + city + '"> Saapuvat </a>';
+departureLink.innerHTML = '<a href="../departures/?city=' + city + '"> Lähtevät </a>';
+arrivalLink.innerHTML = '<a href="?city=' + city + '"> Saapuvat </a>';
 
 
 function getVr() {
@@ -68,7 +68,8 @@ function renderData(data) {
         if (data.commuterLineID === "P") {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows)
         } else {
-            lastIndexOfTimeTable = data.timeTableRows.length - 1;
+            // lastIndexOfTimeTable = data.timeTableRows.length - 1;
+            lastIndexOfTimeTable = 0
         }
         console.log(lastIndexOfTimeTable)
 
@@ -92,8 +93,12 @@ function renderData(data) {
         let lastStationName = stations[stationShorts.indexOf(lastStationCode)]
         lastStationName = (lastStationName === undefined) ? "Ei saatavilla" : lastStationName;
 
-        stationName = stationName.replace("asema", "");
-        lastStationName = lastStationName.replace("asema", "");
+        // stationName = stationName.replace("asema", "")
+        // stationName = stationName.replace("_(Finljandski)", "")
+        // lastStationName = lastStationName.replace("asema", "");
+        // lastStationName = lastStationName.replace("_(Finljandski)", "");
+        stationName = cleanStationName(stationName)
+        lastStationName = cleanStationName(lastStationName)
 
         let row = trainTable.insertRow(0);
         let cell1 = row.insertCell(0);
@@ -115,11 +120,19 @@ function renderData(data) {
     })
 }
 
+function cleanStationName(name) {
+    name = name.replace("asema", "")
+    name = name.replace("_(Finljandski)", "")
+    name = name.replace("Lento", "Lentokenttä")
+    return name;
+}
+
+
 function handlePTrain(data) {
     for (let i = 0; i < data.length; i++) {
         if (data[i].stationShortCode === "LEN") {
             return i;
-            console.log(i)
+            // console.log(i)
             break;
         }
     }

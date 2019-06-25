@@ -92,8 +92,8 @@ function renderData(data) {
         let lastStationName = stations[stationShorts.indexOf(lastStationCode)]
         lastStationName = (lastStationName === undefined) ? "Ei saatavilla" : lastStationName;
 
-        stationName = stationName.replace("asema", "");
-        lastStationName = lastStationName.replace("asema", "");
+        stationName = cleanStationName(stationName)
+        lastStationName = cleanStationName(lastStationName)
 
         let row = trainTable.insertRow(0);
         let cell1 = row.insertCell(0);
@@ -113,6 +113,13 @@ function renderData(data) {
         cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
         cell6.style.color = "red";
     })
+}
+
+function cleanStationName(name) {
+    name = name.replace("asema", "")
+    name = name.replace("_(Finljandski)", "")
+    name = name.replace("Lento", "Lentokenttä")
+    return name;
 }
 
 function handlePTrain(data) {
