@@ -10,12 +10,12 @@ body {
     overflow-x:auto;
 
 }
-td:hover {
+tr:hover {
     /*border-bottom: 2px solid black;*/
     /*border-top: 2px solid black;*/
     /*border-inline: black 10px solid;*/
     background-color: darkgreen!important;
-    color: ghostwhite!important;
+    color: white;
 }
 
 table {
@@ -41,13 +41,15 @@ th, td {
 
 a {
     color: inherit;
+    opacity: 90%;
     text-decoration: none;
     text-transform: uppercase;
 }
 
 a:hover {
     text-shadow: 1px 1px black;
-    color: ghostwhite;
+    color: floralwhite!important;
+
 }
 
 tr:nth-child(even), thead {
