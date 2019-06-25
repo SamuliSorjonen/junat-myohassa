@@ -25,6 +25,7 @@ function getStationsToArray() {
 
 let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station='+city;
 
+const currentCity = document.getElementById("city")
 const trainTable = document.getElementById("trainTable");
 const departureLink = document.getElementById("departure")
 
@@ -60,12 +61,13 @@ let traindata = [];
 function renderData(data) {
     trainTable.innerHTML = ""
     traindata = data.map(x => x)
+    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
 
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
         let lastIndexOfTimeTable;
 
-        if (data.commuterLineID === "P") {
+        if (data.commuterLineID === "P" || data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows)
         } else {
             lastIndexOfTimeTable = data.timeTableRows.length - 1;
@@ -92,8 +94,8 @@ function renderData(data) {
         let lastStationName = stations[stationShorts.indexOf(lastStationCode)]
         lastStationName = (lastStationName === undefined) ? "Ei saatavilla" : lastStationName;
 
-        stationName = stationName.replace("asema", "");
-        lastStationName = lastStationName.replace("asema", "");
+        stationName = cleanStationName(stationName)
+        lastStationName = cleanStationName(lastStationName)
 
         let row = trainTable.insertRow(0);
         let cell1 = row.insertCell(0);
@@ -102,6 +104,7 @@ function renderData(data) {
         let cell4 = row.insertCell(2);
         let cell5 = row.insertCell(3);
         let cell6 = row.insertCell(4);
+        let cell7 = row.insertCell(5);
 
         cell1.innerHTML = data.trainType + data.trainNumber
         // cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
@@ -112,7 +115,15 @@ function renderData(data) {
         cell5.innerHTML = arrivalTime
         cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
         cell6.style.color = "red";
+        cell7.innerHTML = data.timeTableRows[currentStationIndex].commercialTrack
     })
+}
+
+function cleanStationName(name) {
+    name = name.replace("asema", "")
+    name = name.replace("_(Finljandski)", "")
+    name = name.replace("Lento", "Lentokenttä")
+    return name;
 }
 
 function handlePTrain(data) {
