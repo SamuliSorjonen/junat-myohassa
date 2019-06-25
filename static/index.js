@@ -57,8 +57,14 @@ function renderData(data) {
 
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
+        let lastIndexOfTimeTable;
 
-        let lastIndexOfTimeTable = data.timeTableRows.length - 1;
+        if (data.commuterLineID === "P") {
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows)
+        } else {
+            lastIndexOfTimeTable = data.timeTableRows.length - 1;
+        }
+        console.log(lastIndexOfTimeTable)
 
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
@@ -68,7 +74,7 @@ function renderData(data) {
         let b = data.timeTableRows[currentStationIndex].liveEstimateTime;
         let estimatedTime = new Date(b).toLocaleString("fi", optiot);;
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
-
+        // console.log(data)
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
         let arrivalTime = new Date(c).toLocaleString("fi", optiot);
 
@@ -85,15 +91,15 @@ function renderData(data) {
 
         let row = trainTable.insertRow(0);
         let cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        let cell4 = row.insertCell(3);
-        let cell5 = row.insertCell(4);
-        let cell6 = row.insertCell(5);
+        // let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(1);
+        let cell4 = row.insertCell(2);
+        let cell5 = row.insertCell(3);
+        let cell6 = row.insertCell(4);
 
         cell1.innerHTML = data.trainType + data.trainNumber
-        cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
-            + stationName + '</a>'
+        // cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
+        //     + stationName + '</a>'
         cell3.innerHTML = '<a href="?city=' + data.timeTableRows[lastIndexOfTimeTable].stationShortCode + '">'
             + lastStationName + '</a>';
         cell4.innerHTML = scheduledTime
@@ -103,7 +109,15 @@ function renderData(data) {
     })
 }
 
-
+function handlePTrain(data) {
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].stationShortCode === "LEN") {
+            return i;
+            console.log(i)
+            break;
+        }
+    }
+}
 // window.onscroll = function () {
 //     myFunction()
 // };
