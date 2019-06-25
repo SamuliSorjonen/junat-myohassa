@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Junahaku</title>
+
+</head>
+<body>
+<h1>Junien haku</h1>
+<p id="hae">Odota hetki, haetaan dataa...</p>
+<p>Mistä<select id="departure"></select></p>
+<!--<p>Mistä<input list="departures" name="departure"><datalist id="departures"><option value="Helsinki"></datalist></p>-->
+<p>Mihin<select id="arrival">
+</select></p>
+<p>Päivämäärä<input type="date" id="date"></p>
+<p>Kellonaika<input type="time" id="time"></p>
+<button onclick="haedata()" id="btn">Hae</button>
+<hr/>
+<table id="taulu">
+    <thead>
+    <tr>
+        <th>Junatyyppi</th>
+        <th class="min">Junatunnus</th>
+        <th class="min">Lähtee</th>
+        <th id="perilla" class="min">Perillä</th>
+        <th class="max">&nbsp;</th>
+        <th class="min">Määräasema</th>
+        <th class="min">Perillä</th>
+    </tr>
+    </thead>
+    <tbody id="lista"></tbody>
+</table>
+
+<script src="trainsearch.js"></script>
+
+</body>
+</html>
