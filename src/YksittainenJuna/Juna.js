@@ -52,13 +52,13 @@ function tulosta(juna) {
                 }
 
                 if (i == 0) {
-                    myTrain.innerHTML += "<td><a href=../index.html?city="+j.timeTableRows[i].stationShortCode+">" +asema+"</a></td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>" +
+                    myTrain.innerHTML += "<td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">" +asema+"</a></td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>" +
                         "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
                 }
 
                 if (j.timeTableRows[i].type === "ARRIVAL") {
 
-                    myTrain.innerHTML += "<td><a href=../index.html?city="+j.timeTableRows[i].stationShortCode+">"+ asema + "</a></td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>" +
+                    myTrain.innerHTML += "<td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">"+ asema + "</a></td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>" +
                         "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
                 }
             }
