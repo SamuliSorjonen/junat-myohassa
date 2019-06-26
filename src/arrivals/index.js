@@ -23,8 +23,9 @@ function getStationsToArray() {
 }
 
 
-let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=50&departed_trains=0&departing_trains=0&station='+city;
+let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=50&departed_trains=0&departing_trains=0&station=' + city;
 
+const currentCity = document.getElementById("city")
 const trainTable = document.getElementById("trainTable");
 const departureLink = document.getElementById("departure")
 
@@ -39,7 +40,7 @@ function getVr() {
         .then(response => response.json())
         .then(response => response.filter(value => value.trainCategory !== "Shunting"))
         .then(response => response.filter(value => value.trainCategory !== "Cargo"))
-        .then( response => response.sort((a,b) =>
+        .then(response => response.sort((a, b) =>
             new Date(b.timeTableRows[findCurrentStation(b)].scheduledTime) - new Date(a.timeTableRows[findCurrentStation(a)].scheduledTime)))
         .then(response => renderData(response))
         .catch(error => console.log(error));
@@ -57,29 +58,34 @@ function findCurrentStation(data) {
 }
 
 let traindata = [];
+
 function renderData(data) {
     trainTable.innerHTML = ""
     traindata = data.map(x => x)
-
+    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
         let lastIndexOfTimeTable;
 
-        if (data.commuterLineID === "P") {
-            lastIndexOfTimeTable = handlePTrain(data.timeTableRows)
+        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
+        } else if (data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
         } else {
-            // lastIndexOfTimeTable = data.timeTableRows.length - 1;
-            lastIndexOfTimeTable = 0
+            lastIndexOfTimeTable = data.timeTableRows.length - 1;
         }
+
         console.log(lastIndexOfTimeTable)
 
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
         let a = data.timeTableRows[currentStationIndex].scheduledTime;
-        let scheduledTime = new Date(a).toLocaleString("fi", optiot);;
+        let scheduledTime = new Date(a).toLocaleString("fi", optiot);
+        ;
 
         let b = data.timeTableRows[currentStationIndex].liveEstimateTime;
-        let estimatedTime = new Date(b).toLocaleString("fi", optiot);;
+        let estimatedTime = new Date(b).toLocaleString("fi", optiot);
+        ;
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
         // console.log(data)
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
@@ -93,10 +99,6 @@ function renderData(data) {
         let lastStationName = stations[stationShorts.indexOf(lastStationCode)]
         lastStationName = (lastStationName === undefined) ? "Ei saatavilla" : lastStationName;
 
-        // stationName = stationName.replace("asema", "")
-        // stationName = stationName.replace("_(Finljandski)", "")
-        // lastStationName = lastStationName.replace("asema", "");
-        // lastStationName = lastStationName.replace("_(Finljandski)", "");
         stationName = cleanStationName(stationName)
         lastStationName = cleanStationName(lastStationName)
 
@@ -108,9 +110,10 @@ function renderData(data) {
         let cell5 = row.insertCell(3);
         let cell6 = row.insertCell(4);
 
-        cell1.innerHTML = data.trainType + data.trainNumber
-        // cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
-        //     + stationName + '</a>'
+        let commuterOrNot = (data.trainCategory === "Commuter") ? data.commuterLineID : data.trainType + data.trainNumber;
+        cell1.innerHTML = '<a href="../YksittainenJuna/Juna.html?numero=' + data.trainNumber + '">'
+            + commuterOrNot + '</a>';
+
         cell3.innerHTML = '<a href="?city=' + data.timeTableRows[lastIndexOfTimeTable].stationShortCode + '">'
             + lastStationName + '</a>';
         cell4.innerHTML = scheduledTime
@@ -128,15 +131,17 @@ function cleanStationName(name) {
 }
 
 
-function handlePTrain(data) {
-    for (let i = 0; i < data.length; i++) {
+function handlePTrain(data, index) {
+    for (let i = index; i < data.length; i++) {
         if (data[i].stationShortCode === "LEN") {
             return i;
-            // console.log(i)
+            console.log(i)
             break;
         }
     }
+    return data.length - 1;
 }
+
 // window.onscroll = function () {
 //     myFunction()
 // };
