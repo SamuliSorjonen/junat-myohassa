@@ -11,20 +11,29 @@
     <div class="container">
         <h1>Rekisteröidy</h1>
         <p>Anna omat tietosi.</p>
-        <hr>
 
+        <hr>
+        <h2>Käyttäjätunnus ja salasana</h2>
         <label for="Sähköposti"><b>Sähköpostiosoite</b></label>
-        <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi" name="email" required>
+        <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi, joka toimii käyttäjätunnuksenasi." name="email" required>
 
         <label for="Salasana"><b>Salasana</b></label>
         <input id="salasana" type="password" placeholder="Kirjoita salasana" name="psw" required>
 
         <label  for="SalasanaUudelleen"><b>Salasana uudelleen</b></label>
-        <input id="SalasanaUudelleen" type="password" placeholder="Kirjoita salasana uudelleen" name="psw-repeat" required>
+        <input id="SalasanaUudelleen" type="password" placeholder="Vahvista salasana." name="psw-repeat" required>
+        <hr>
+        <h2>Henkilötiedot</h2>
+        <label for="Etunimi"><b>Etunimi</b></label>
+        <input id="etunimi" type="text" placeholder="Kirjoita etunimesi" name="etunimi" required>
+
+        <label for="Sukunimi"><b>Sukunimi</b></label>
+        <input id="sukunimi" type="text" placeholder="Kirjoita sukunimesi" name="sukunimi" required>
+
         <hr>
 
 
-        <button type="button" class="registerbtn" onclick="save('sähköposti', 'salasana')">Rekisteröidy</button>
+        <button type="button" class="registerbtn" onclick="save('sähköposti', 'salasana', 'etunimi', 'sukunimi')">Rekisteröidy</button>
     </div>
     <div id="save">
 
