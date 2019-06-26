@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="Login.css">
+
+</head>
+<body>
+<form>
+    <div class="imgcontainer">
+
+    </div>
+
+    <div class="container">
+        <h2>Kirjautuminen</h2>
+        <label for="sähköposti"><b>Käyttäjätunnus</b></label>
+        <input id="sähköposti" type="text" placeholder="Kirjoita käyttäjätunnus" name="uname"  required>
+
+        <label for="password"><b>Salasana</b></label>
+        <input id="password" type="password" placeholder="Kirjoita salasana" name="psw" required>
+
+        <button type="button" onclick="avaaSivu()" >Kirjaudu</button>
+
+
+
+        <label>
+            <input type="checkbox" checked="checked" name="Muista minut"> Muista minut
+        </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <input type="button" value="Rekisteröidy" onclick="rekisteröidy()">
+        <button type="button" class="cancelbtn">Peruuta</button>
+        <span class="psw">Unohditko <a href="#">salasanan?</a></span>
+    </div>
+</form>
+<script src="Login.js"></script>
+</body>
+</html>
