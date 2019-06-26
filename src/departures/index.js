@@ -3,14 +3,17 @@ document.addEventListener('DOMContentLoaded', function () {
     getStationsToArray();
 }, false);
 
-var paramsString = window.location.search;
-var searchParams = new URLSearchParams(paramsString);
-
+/*Parse station code from URI-params*/
+let paramsString = window.location.search;
+let searchParams = new URLSearchParams(paramsString);
 const city = searchParams.get("city");
-console.log(city)
+
+
 const stations = [];
 const stationShorts = [];
 
+/*Fetches json-data of trainstation shortcodes and corresponding station names
+* Use: index of const stations is equal to const stationShorts */
 function getStationsToArray() {
     fetch('https://rata.digitraffic.fi/api/v1/metadata/stations')
         .then((response) => response.json())
@@ -34,7 +37,13 @@ const arrivalLink = document.getElementById("arrival")
 departureLink.innerHTML = '<a href="?city=' + city + '"> Lähtevät </a>';
 arrivalLink.innerHTML = '<a href="../arrivals/?city=' + city + '"> Saapuvat </a>';
 
-
+/*
+* Fetches data url (digitraffic.fi)
+* Filters out not passanger trains
+* Sorts by time ascending
+* Renders data to html
+* @param url
+*/
 function getVr() {
     fetch(url)
         .then(response => response.json())
@@ -46,6 +55,9 @@ function getVr() {
         .catch(error => console.log(error));
 }
 
+/*Helper funtion to find index of current station
+* @param json data
+* @return index of station currently showing, use with data.timetablerows[]*/
 function findCurrentStation(data) {
     let currentStationIndex = 0;
     for (let i = 0; i < data.timeTableRows.length; i++) {
@@ -58,17 +70,25 @@ function findCurrentStation(data) {
 }
 
 let traindata = [];
+
+/*Funtion for rendering data to html
+/ Creates table with 6 rows,
+/
+/ @param json data
+/@return table to html*/
 function renderData(data) {
     trainTable.innerHTML = ""
-    traindata = data.map(x => x)
+    // traindata = data.map(x => x)
     currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
 
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
         let lastIndexOfTimeTable;
 
-        if (data.commuterLineID === "P" || data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
-            lastIndexOfTimeTable = handlePTrain(data.timeTableRows)
+        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
+        } else if (data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
         } else {
             lastIndexOfTimeTable = data.timeTableRows.length - 1;
         }
@@ -99,16 +119,15 @@ function renderData(data) {
 
         let row = trainTable.insertRow(0);
         let cell1 = row.insertCell(0);
-        // let cell2 = row.insertCell(1);
         let cell3 = row.insertCell(1);
         let cell4 = row.insertCell(2);
         let cell5 = row.insertCell(3);
         let cell6 = row.insertCell(4);
         let cell7 = row.insertCell(5);
 
-        cell1.innerHTML = data.trainType + data.trainNumber
-        // cell2.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
-        //     + stationName + '</a>'
+        let commuterOrNot = (data.trainCategory === "Commuter") ? data.commuterLineID : data.trainType + data.trainNumber;
+        cell1.innerHTML = '<a href="../YksittainenJuna/Juna.html?numero=' + data.trainNumber + '">'
+            + commuterOrNot + '</a>';
         cell3.innerHTML = '<a href="?city=' + data.timeTableRows[lastIndexOfTimeTable].stationShortCode + '">'
             + lastStationName + '</a>';
         cell4.innerHTML = scheduledTime
@@ -119,6 +138,11 @@ function renderData(data) {
     })
 }
 
+/*
+* Helper function to clean abnormal station names
+* @param Station name
+* @return cleaned station name
+* */
 function cleanStationName(name) {
     name = name.replace("asema", "")
     name = name.replace("_(Finljandski)", "")
@@ -126,14 +150,20 @@ function cleanStationName(name) {
     return name;
 }
 
-function handlePTrain(data) {
-    for (let i = 0; i < data.length; i++) {
+/*Helper function to handle circle lines I & P
+* @param json.timeTableRows
+* @param index of current station in arrrays stationsShorts & stations
+* @return index of Lentokenttä or if in way back, index of last station (Helsinki)
+* */
+function handlePTrain(data, index) {
+    for (let i = index; i < data.length; i++) {
         if (data[i].stationShortCode === "LEN") {
             return i;
             console.log(i)
             break;
         }
     }
+    return data.length - 1;
 }
 // window.onscroll = function () {
 //     myFunction()
