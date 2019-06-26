@@ -1,5 +1,8 @@
 function save() {
     console.log("Save")
+
+    var käyttäjätunnus=document.getElementById("sähköposti").value;
+    console.log(käyttäjätunnus)
     var emailValue = document.getElementById('sähköposti').value;
     console.log(emailValue);
     var salasanaValue = document.getElementById('salasana').value;
