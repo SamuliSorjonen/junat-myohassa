@@ -9,11 +9,17 @@
 <body>
 <h1>Junien haku</h1>
 <p id="hae">Odota hetki, haetaan dataa...</p>
-<p>Mistä<select id="departure"></select></p>
-<!--<p>Mistä<input list="departures" name="departure"><datalist id="departures"><option value="Helsinki"></datalist></p>
-map funktiolla js:ssä jokainen otion valueksi-->
-<p>Mihin<select id="arrival">
-</select></p>
+<!--<p>Mistä<select id="departure"></select></p>-->
+
+<p>Mistä<input list="departures" name="departure" id="departureDatalist">
+    <datalist id="departures"></datalist></p>
+
+<p>Mihin<input list="arrivals" name="arrival" id="arrivalDatalist">
+    <datalist id="arrivals"></datalist></p>
+
+
+<!--<p>Mihin<select id="arrival">-->
+<!--</select></p>-->
 <p>Päivämäärä<input type="date" id="date"></p>
 <p>Kellonaika<input type="time" id="time"></p>
 <button onclick="haedata()" id="btn">Hae</button>
