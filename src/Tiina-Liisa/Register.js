@@ -11,10 +11,10 @@ function save() {
 
     if(salasanaValue===salasanaUudelleenValue){
         console.log("Olet nyt rekisteröitynyt!");
-        document.write("Olet nyt rekisteröitynyt!");
+        window.open("OmaSivu.html");
     }else {
         console.log("Antamasi salasanat eivät täsmää!")
-        document.write("Antamasi salasanat eivät täsmää, yritä uudelleen!");
+        window.alert("Antamasi salasanat eivät täsmää, yritä uudelleen!");
         //window.open("Register.html");
     }
     // localStorage.setItem('button')

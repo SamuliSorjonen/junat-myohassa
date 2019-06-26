@@ -17,10 +17,10 @@ function avaaSivu() {
 
     if(salanayritys===tallennettusalasana){
         console.log("Kirjauduttu!");
-        document.write("Kirjauduttu!");
+        window.open("OmaSivu.html");
     }else{
         console.log("Salasana väärin!")
-        document.write("Salasana väärin, yritä uudestaan!");
+        window.alert("Salasana väärin, yritä uudestaan!");
 
     }
 }
