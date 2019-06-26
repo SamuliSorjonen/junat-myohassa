@@ -16,6 +16,9 @@ function save() {
 
     if(salasanaValue===salasanaUudelleenValue){
         console.log("Olet nyt rekisteröitynyt!");
+        sessionStorage.kirjautunut=käyttäjätunnus;
+        sessionStorage.etunimi=kayttaja.etunimi;
+        sessionStorage.sukunimi=kayttaja.sukunimi;
         window.open("OmaSivu.html");
     }else {
         console.log("Antamasi salasanat eivät täsmää!")
