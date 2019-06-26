@@ -7,20 +7,21 @@
 
 </head>
 <body>
-<form action="action_page.php">
+<form>
     <div class="imgcontainer">
 
     </div>
 
     <div class="container">
         <h2>Kirjautuminen</h2>
-        <label for="name"><b>Käyttäjätunnus</b></label>
-        <input type="text" placeholder="Kirjoita käyttäjätunnus" name="uname" required>
+        <label for="sähköposti"><b>Käyttäjätunnus</b></label>
+        <input id="sähköposti" type="text" placeholder="Kirjoita käyttäjätunnus" name="uname"  required>
 
         <label for="password"><b>Salasana</b></label>
-        <input type="password" placeholder="Kirjoita salasana" name="psw" required>
+        <input id="password" type="password" placeholder="Kirjoita salasana" name="psw" required>
 
-        <button type="submit">Kirjaudu</button>
+        <button type="button" onclick="avaaSivu()" >Kirjaudu</button>
+
 
 
         <label>
@@ -29,7 +30,6 @@
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-        <!--<input type="button" value="Kirjaudu" onclick="avaaSivu()">-->
         <input type="button" value="Rekisteröidy" onclick="rekisteröidy()">
         <button type="button" class="cancelbtn">Peruuta</button>
         <span class="psw">Unohditko <a href="#">salasanan?</a></span>
