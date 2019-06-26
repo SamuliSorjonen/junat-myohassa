@@ -1,10 +1,8 @@
-var baseurl = "https://rata.digitraffic.fi/api/v1";
-var loppuurl = "/live-trains/station/";
+var baseurl = "https://rata.digitraffic.fi/api/v1/live-trains/station/";
 //  /live-trains/station/<departure_station_code>/<arrival_station_code>?departure_date=<departure_date>&from=<from>&to=<to>&limit=<limit>
 
 const stationsOrg = [];
 const stationShorts = [];
-const stationObject = [];
 
 const departureDatalist = document.getElementById("departures")
 const arrivalDatalist = document.getElementById("arrivals")
@@ -26,22 +24,6 @@ function getStationsToArray() {
         .then(renderDatalist)
 }
 
-console.log(stationShorts);
-
-// list of departure and arrival stations
-// var stations = {LH: "Lahti", HKI: "Helsinki", TPE: "Tampere", TKU: "Turku", ROI: "Rovaniemi", OL: "Oulu"};
-// var arrival = document.getElementById("arrival");
-// var departure = document.getElementById("departure");
-// for (var shortcode in stations) {
-//     var arrivaloption = document.createElement("option");
-//     var departureoption = document.createElement("option");
-//     arrivaloption.value = shortcode;
-//     departureoption.value = shortcode;
-//     arrivaloption.innerText = stations[shortcode];
-//     departureoption.innerText = stations[shortcode];
-//     arrival.appendChild(arrivaloption);
-//     departure.appendChild(departureoption);
-// }
 
 var input = '';
 document.getElementById("date").addEventListener("change", function () {
@@ -71,8 +53,7 @@ xhr.onreadystatechange = function () {
             kasitteletulos(tulos);
         } else {
             alert("Pyyntö epäonnistui");
-            document.getElementById("hae").innerText = "Hae data uudestaan painamalla nappulaa:";
-            document.getElementById("btn").style.visibility = "visible";
+            document.getElementById("hae").innerText = "Reittiä ei löytynyt, tee uusi haku:";
         }
     }
 };
@@ -86,17 +67,15 @@ function kasitteletulos(tulos) {
         var elem = document.createElement("tr");
         var juna = tulos[i];
         var vikarivi = juna.timeTableRows[juna.timeTableRows.length - 1];
-
-        // hakee nyt lähtöajan sen mukaan mistä juna alunperin lähtee
         var lahtoaikaAsemalta = "";
+        var laituri = "";
         for (var j = 0; j < juna.timeTableRows.length; j++) {
             if (juna.timeTableRows[j].stationShortCode === departureStation && juna.timeTableRows[j].type === "DEPARTURE") {
                 lahtoaikaAsemalta = new Date(juna.timeTableRows[j].scheduledTime).toLocaleTimeString("fi", optiot);
+                laituri = juna.timeTableRows[j].commercialTrack;
             }
         }
-
-        var lahtoaika = new Date(juna.timeTableRows[0].scheduledTime).toLocaleTimeString("fi", optiot);
-        var saapumisaikalopullinen = new Date(vikarivi.scheduledTime).toLocaleTimeString("fi", optiot);
+        //var saapumisaikalopullinen = new Date(vikarivi.scheduledTime).toLocaleTimeString("fi", optiot);
         var maaraasema = stationsOrg[vikarivi.stationShortCode];
         if (!maaraasema) maaraasema = vikarivi.stationShortCode;
         // Etsityn aseman saapumisajan kaivaminen:
@@ -107,10 +86,16 @@ function kasitteletulos(tulos) {
             }
         }
         var junatunnus = juna.trainCategory === "Commuter" ? juna.commuterLineID : juna.trainType + juna.trainNumber;
-
         var solut = [];
         var junatyyppitd = document.createElement("td");
-        junatyyppitd.innerText = juna.trainCategory;
+        var traintype = juna.trainCategory;
+        if(traintype === "Commuter"){
+            traintype = "Lähijuna";
+        }else{
+            traintype = "Kaukojuna";
+        }
+        junatyyppitd.innerText = traintype;
+
         solut.push(junatyyppitd);
         var junatunnustd = document.createElement("td");
         junatunnustd.innerText = junatunnus;
@@ -125,17 +110,16 @@ function kasitteletulos(tulos) {
         var maaraasematd = document.createElement("td");
         maaraasematd.innerText = maaraasema;
         solut.push(maaraasematd);
-        var perillalopullinentd = document.createElement("td");
-        perillalopullinentd.innerText = saapumisaikalopullinen;
-        solut.push(perillalopullinentd);
+        var lahtolaituritd = document.createElement("td");
+        lahtolaituritd.innerText = laituri;
+        solut.push(lahtolaituritd);
 
         for (var j = 0; j < solut.length; ++j) {
             elem.appendChild(solut[j]);
         }
         lista.appendChild(elem);
     }
-    document.getElementById("hae").innerText = "Hae data uudestaan painamalla nappulaa:";
-    document.getElementById("btn").style.visibility = "visible";
+    document.getElementById("hae").innerText = "Tee uusi haku: ";
 }
 
 function haedata() {
@@ -143,9 +127,7 @@ function haedata() {
     arrivalStation = stationShorts[stationsOrg.indexOf(arrivalStation)];
     departureStation = document.getElementById("departureDatalist").value;
     departureStation = stationShorts[stationsOrg.indexOf(departureStation)];
-    //xhr.open('get', baseurl+loppuurl+departureStation+"/"+arrivalStation);
-    xhr.open('get', baseurl + loppuurl + departureStation + "/" + arrivalStation + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
-    console.log(baseurl + loppuurl + departureStation + "/" + arrivalStation + "?startDate=" + input + "T" + timeinput + ":00Z");
+    xhr.open('get', baseurl + departureStation + "/" + arrivalStation + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
     xhr.send();
 }
 
@@ -163,4 +145,4 @@ function renderDatalist() {
     })
 }
 
-//haedata();
+
