@@ -1,5 +1,12 @@
-hae()
-function hae(numero){
+
+var asemanimet=[];
+haeAsemanNimi();
+var paramsString = window.location.search;
+var searchParams = new URLSearchParams(paramsString);
+
+const numero = searchParams.get("numero");
+hae();
+function hae(){
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange=readystagechange;
     xhr.open("GET", "https://rata.digitraffic.fi/api/v1/trains/latest/"+numero);
@@ -27,31 +34,49 @@ function tulosta(juna) {
         var myTrain = document.getElementById("myTrain");
 
         for (var i = 0; i < j.timeTableRows.length; i++) {
-            if (j.timeTableRows[i].trainStopping == true) {
-                aika = new Date(j.timeTableRows[i].scheduledTime);
-                aikakaksi = aika.toLocaleTimeString({hour: '2-digit', minute: '2-digit', hour12: false})
-                if (i == j.timeTableRows.length - 1) {
-                    aikalahto = 0;
-                    aikalahtotoka = 0;
-                } else {
-                    aikalahto = new Date(j.timeTableRows[i + 1].scheduledTime);
-                    aikalahtotoka = aikalahto.toLocaleTimeString({hour: '2-digit', minute: '2-digit', hour12: false})
+            var asema = j.timeTableRows[i].stationShortCode;
+            for (a of asemanimet){
+                if(asema === a.stationShortCode){
+                    asema = a.stationName;
                 }
             }
-                if (i==0){
-                    myTrain.innerHTML += "<td>" + j.timeTableRows[i].stationShortCode + "</td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>"
 
+            if (j.timeTableRows[i].trainStopping == true) {
+                var optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
+                aikakaksi = new Date(j.timeTableRows[i].scheduledTime).toLocaleTimeString("fi", optiot);
+
+                if (i == j.timeTableRows.length - 1) {
+                    aikalahtotoka = "Juna jää asemalle";
+                } else {
+                    aikalahtotoka = new Date(j.timeTableRows[i + 1].scheduledTime).toLocaleTimeString("fi", optiot);
+                }
+
+                if (i == 0) {
+                    myTrain.innerHTML += "<td><a href=../index.html?city="+j.timeTableRows[i].stationShortCode+">" +asema+"</a></td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>" +
+                        "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
                 }
 
                 if (j.timeTableRows[i].type === "ARRIVAL") {
 
-                    myTrain.innerHTML += "<td>" + j.timeTableRows[i].stationShortCode + "</td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>"
+                    myTrain.innerHTML += "<td><a href=../index.html?city="+j.timeTableRows[i].stationShortCode+">"+ asema + "</a></td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>" +
+                        "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
                 }
             }
-
-
         }
 
 
-
+    }
 }
+    function haeAsemanNimi(){
+        xh = new XMLHttpRequest();
+        xh.onreadystatechange=readystagechangetoka;
+        xh.open("GET", "https://rata.digitraffic.fi/api/v1/metadata/stations");
+        xh.send();
+    }
+    function readystagechangetoka() {
+        if (xh.readyState === 4) {
+            var asemat = JSON.parse(xh.responseText);
+            console.dir(asemat)
+            asemanimet = asemat;
+        }
+    }
