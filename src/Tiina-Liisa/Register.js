@@ -6,8 +6,13 @@ function save() {
     console.log(salasanaValue);
     var salasanaUudelleenValue = document.getElementById('SalasanaUudelleen').value;
     console.log(salasanaUudelleenValue);
+    var etunimiValue = document.getElementById('etunimi').value;
+    console.log(etunimiValue);
+    var sukunimiValue = document.getElementById('sukunimi').value;
+    console.log(sukunimiValue);
     //Täällä pitäisi tsekata, että salasanat samat, ehkä salasanan vahvuus?
-    localStorage.setItem(emailValue, salasanaValue)
+    var kayttajaJSON=`{"salasana":"${salasanaValue}", "etunimi":"${etunimiValue}", "sukunimi":"${sukunimiValue}"}`;
+    localStorage.setItem(emailValue, kayttajaJSON)
 
     if(salasanaValue===salasanaUudelleenValue){
         console.log("Olet nyt rekisteröitynyt!");
