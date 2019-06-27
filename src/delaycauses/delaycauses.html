@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>myohastymiset</title>
+    <link rel="stylesheet" href="../../static/style.css">
+
+</head>
+
+<body>
+
+
+<div class="header" id="myHeader">
+<h1 class="htext" id="htext">Junatmyöhässä.com </h1>
+    <h2>Miksi olemme myöhässä?</h2>
+</div>
+
+<h2>Valitse päivä, jonka kootut selitykset haluat!</h2>
+<p>Päivämäärä<input type="date" id="paiva"></p>
+
+<div id="trainContainer">
+
+    <table id="myohassa" border="0" cellpadding="0" cellspacing="0">
+        <thead id="tableHeader">
+           <tr>
+                <th>Myöhästynyt juna</th>
+                <th>Selitys</th>
+           </tr>
+        </thead>
+        <tbody id="trainTable"></tbody>
+    </table>
+</div>
+<script src="delaycauses.js"></script>
+</body>
+</html>
