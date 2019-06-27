@@ -8,9 +8,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!--override some bootstrap styles-->
-    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="src/frontpage/custom.css">
     <!--table styles -->
-    <link rel="stylesheet" href="../../static/style.css">
+    <link rel="stylesheet" href="static/style.css">
+
 
 </head>
 <body>
@@ -24,17 +25,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="../../logovalk.png" height="51" width="200"/></a>
+            <a class="navbar-brand" href="#"><img src="logovalk.png" height="51" width="200"/></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="omavari" class="active"><a href="#">Etusivu</a></li>
-                <li><a href="#">Asemahaku</a></li>
-                <li><a href="#">Junat kartalla</a></li>
-                <li><a href="juna.html">Ekstrat</a></li>
+                <li><a href="src/departures/index.html">Asemahaku</a></li>
+                <li><a href="src/map/map.html">Junat kartalla</a></li>
+                <li><a href="src/frontpage/juna.html">Ekstrat</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="../Tiina-Liisa/Login.html"><span class="glyphicon glyphicon-log-in"></span> Kirjaudu sisään</a></li>
+                <li><a href="src/Tiina-Liisa/Login.html"><span class="glyphicon glyphicon-log-in"></span> Kirjaudu sisään</a></li>
             </ul>
         </div>
     </div>
@@ -102,10 +103,10 @@
         <!--sidenav adds begin-->
         <div class="col-sm-2 sidenav">
             <div class="well">
-                <img src="../../alogo.png" height="173" width="520" class="img-responsive"/>
+                <img src="alogo.png" height="173" width="520" class="img-responsive"/>
             </div>
             <div class="well">
-                <img src="../../amainos.png" height="581" width="450" class="img-responsive"/></div>
+                <img src="amainos.png" height="581" width="450" class="img-responsive"/></div>
         </div>
         <!--sidenav ends-->
 
@@ -120,7 +121,6 @@
 <!--footer ends-->
 
 <!--script -->
-<script src="../trainsearch/trainsearch.js"></script>
-
+<script src="src/trainsearch/trainsearch.js"></script>
 </body>
 </html>
