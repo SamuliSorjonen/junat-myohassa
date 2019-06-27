@@ -1,3 +1,5 @@
+/*code from: https://codepad.co/snippet/moving-train-using-only-css*/
+
 body {
     margin: 0 !important;
     padding: 0 !important;
@@ -17,8 +19,7 @@ div {
 .background {
     height: 1080px;
     width: 1920px;
-    background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QSXhkaG1VaEhSTjA
-    );
+    background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QSXhkaG1VaEhSTjA);
     background-repeat: repeat-x;
     background-position: top center;
     background-size: contain;
@@ -63,7 +64,7 @@ div {
     height: 315px;
     width: 1500px;
     right: 0px;
-    background: url(https://docs.google.com/uc?export=download&id=0B2PO2Lr7Bv2QandQOVZSTjBETGs);
+    background-image: url("../../train2.png");
     background-repeat: no-repeat;
     background-position: top center;
     background-size: contain;

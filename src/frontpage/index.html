@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!--override some bootstrap styles-->
     <link rel="stylesheet" href="custom.css">
+    <!--table styles -->
     <link rel="stylesheet" href="../../static/style.css">
-
-
 </head>
 <body>
 
+<!--navbar starts-->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -37,19 +38,20 @@
         </div>
     </div>
 </nav>
+<!--navbar ends-->
 
+<!-- main container starts-->
 <div class="container-fluid text-center">
     <div class="row content">
-        <!--<div class="col-sm-2 sidenav">
-            <p><a href="#">Link</a></p>
-            <p><a href="#">Link</a></p>
-            <p><a href="#">Link</a></p>
-        </div>-->
+
+    <!--middle container starts-->
         <div class="col-sm-10 text-left">
+
+            <!--search-->
             <div class="haku">
             <h1>Junien haku</h1>
             <p id="hae">Syötä hakuehdot: </p>
-
+            <!--search form-->
             <form class="lomake">
                 <div class="form-group">
                     <label>Mistä</label>
@@ -69,8 +71,12 @@
             </span>  Hae matkaa</button>
             </form>
             </div>
+            <!--search ends-->
+
+            <!--break-->
             <hr/>
 
+            <!--train table-->
             <div id="trainContainer">
                 <table id="trains" border="0" cellpadding="0" cellspacing="0">
                     <thead id="tableHeader">
@@ -87,23 +93,33 @@
                     <tbody id="trainTable"></tbody>
                 </table>
             </div>
-
-
+            <!-- train table ends -->
         </div>
+        <!--middle container ends-->
+
+
+        <!--sidenav adds begin-->
         <div class="col-sm-2 sidenav">
             <div class="well">
                 <img src="../../alogo.png" height="173" width="520" class="img-responsive"/>
             </div>
             <div class="well">
-
                 <img src="../../amainos.png" height="581" width="450" class="img-responsive"/></div>
         </div>
+        <!--sidenav ends-->
+
     </div>
 </div>
+<!--main container ends -->
 
+<!-- footer -->
 <footer class="container-fluid text-center">
     <p>&reg; Pulli, Sorjonen, Välimaa, Wonnemann</p>
 </footer>
+<!--footer ends-->
+
+<!--script -->
 <script src="../trainsearch/trainsearch.js"></script>
+
 </body>
 </html>

@@ -1,12 +1,9 @@
 var baseurl = "https://rata.digitraffic.fi/api/v1/live-trains/station/";
 //  /live-trains/station/<departure_station_code>/<arrival_station_code>?departure_date=<departure_date>&from=<from>&to=<to>&limit=<limit>
 
+//station names and shortcodes in arrays
 const stationsOrg = [];
 const stationShorts = [];
-
-const departureDatalist = document.getElementById("departures")
-const arrivalDatalist = document.getElementById("arrivals")
-
 getStationsToArray();
 
 function getStationsToArray() {
@@ -24,7 +21,25 @@ function getStationsToArray() {
         .then(renderDatalist)
 }
 
+//station datalists
+const departureDatalist = document.getElementById("departures")
+const arrivalDatalist = document.getElementById("arrivals")
 
+function renderDatalist() {
+    stationShorts.forEach(function (station) {
+
+        let option = document.createElement("option")
+        option.value = stationsOrg[stationShorts.indexOf(station)]
+
+        let option2 = document.createElement("option")
+        option2.value = stationsOrg[stationShorts.indexOf(station)]
+
+        arrivalDatalist.appendChild(option)
+        departureDatalist.appendChild(option2)
+    })
+}
+
+//read date and time from user
 var input = '';
 document.getElementById("date").addEventListener("change", function () {
     input = this.value;
@@ -38,7 +53,8 @@ document.getElementById("time").addEventListener("change", function () {
     console.log(timeinput);
 });
 
-var lista = document.getElementById("trainTable"); // oikeasti siis tbody
+//printing out results in table
+var lista = document.getElementById("trainTable");
 
 var xhr = new XMLHttpRequest();
 var arrivalStation = '';
@@ -47,7 +63,6 @@ var departureStation = '';
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-            // Tehdään jotakin, pyyntö on valmis
             var tulos = JSON.parse(xhr.responseText);
             console.dir(tulos);
             kasitteletulos(tulos);
@@ -69,16 +84,16 @@ function kasitteletulos(tulos) {
         var vikarivi = juna.timeTableRows[juna.timeTableRows.length - 1];
         var lahtoaikaAsemalta = "";
         var laituri = "";
+        //departure time from station
         for (var j = 0; j < juna.timeTableRows.length; j++) {
             if (juna.timeTableRows[j].stationShortCode === departureStation && juna.timeTableRows[j].type === "DEPARTURE") {
                 lahtoaikaAsemalta = new Date(juna.timeTableRows[j].scheduledTime).toLocaleTimeString("fi", optiot);
                 laituri = juna.timeTableRows[j].commercialTrack;
             }
         }
-        //var saapumisaikalopullinen = new Date(vikarivi.scheduledTime).toLocaleTimeString("fi", optiot);
         var maaraasema = stationsOrg[vikarivi.stationShortCode];
         if (!maaraasema) maaraasema = vikarivi.stationShortCode;
-        // Etsityn aseman saapumisajan kaivaminen:
+        // arrival time to destination
         for (var ind = 1; ind < juna.timeTableRows.length; ++ind) {
             if (juna.timeTableRows[ind].stationShortCode === arrivalStation) {
                 var haettusaapumisaika = new Date(juna.timeTableRows[ind].scheduledTime).toLocaleTimeString("fi", optiot);
@@ -87,6 +102,7 @@ function kasitteletulos(tulos) {
         }
         var junatunnus = juna.trainCategory === "Commuter" ? juna.commuterLineID : juna.trainType + juna.trainNumber;
         var solut = [];
+        //train type, commuter or other
         var junatyyppitd = document.createElement("td");
         var traintype = juna.trainCategory;
         if(traintype === "Commuter"){
@@ -122,6 +138,7 @@ function kasitteletulos(tulos) {
     document.getElementById("hae").innerText = "Tee uusi haku: ";
 }
 
+//fetching data from rest
 function haedata() {
     arrivalStation = document.getElementById("arrivalDatalist").value;
     arrivalStation = stationShorts[stationsOrg.indexOf(arrivalStation)];
@@ -131,18 +148,6 @@ function haedata() {
     xhr.send();
 }
 
-function renderDatalist() {
-    stationShorts.forEach(function (station) {
 
-        let option = document.createElement("option")
-        option.value = stationsOrg[stationShorts.indexOf(station)]
-
-        let option2 = document.createElement("option")
-        option2.value = stationsOrg[stationShorts.indexOf(station)]
-
-        arrivalDatalist.appendChild(option)
-        departureDatalist.appendChild(option2)
-    })
-}
 
 
