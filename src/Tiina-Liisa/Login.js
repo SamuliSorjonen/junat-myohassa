@@ -13,18 +13,11 @@ function avaaSivu() {
 
     var salasanayritys=document.getElementById("salasana").value;
     console.dir(document.getElementById("salasana"));
-//Parsitaan käyttäjätiedot storagesta:
-     kayttaja=JSON.parse(localStorage.getItem(käyttäjätunnus));
-    // tallennettusalasana = localStorage.getItem(salasana);
+    //parsitaan käyttäjätiedot storagesta.
+    kayttaja=JSON.parse(localStorage.getItem(käyttäjätunnus));
     tallennettusalasana = kayttaja.salasana
-    //tallennettusalasana=localStorage.getItem(salasana);
-    //var tallennettusalasana=kayttaja.salasana;
     console.log(tallennettusalasana);
 
-    //var etunimi = document.getElementById("etunimi").value;
-    //console.log(etunimi)
-
-    //if(salasanayritys==tallennettusalasana){
     if (tallennettusalasana===salasanayritys) {
         console.log("kirjautuminen onnistui!");
         /*sessionStorage.kirjautunut=käyttäjätunnus;
@@ -42,7 +35,7 @@ function avaaSivu() {
 
 function peruuta() {
     //tähän linkki etusivulle
-    location.href = "OmaSivu.html";
+    location.href = "../frontpage/index.html";
 }
 
 function hassua() {
