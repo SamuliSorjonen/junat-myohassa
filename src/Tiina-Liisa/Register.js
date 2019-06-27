@@ -24,7 +24,8 @@ function save() {
         sessionStorage.etunimi=kayttaja.etunimi;
         sessionStorage.sukunimi=kayttaja.sukunimi;*/
         localStorage.kirjautunutKayttaja=emailValue;
-        window.open("OmaSivu.html");
+        //window.open("OmaSivu.html");
+        location.href = "OmaSivu.html";
     } else {
         console.log("Antamasi salasanat eivät täsmää!")
         window.alert("Antamasi salasanat eivät täsmää, yritä uudelleen!");

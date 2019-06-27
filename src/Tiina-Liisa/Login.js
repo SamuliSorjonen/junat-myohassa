@@ -31,7 +31,8 @@ function avaaSivu() {
         sessionStorage.etunimi=kayttaja.etunimi;
         sessionStorage.sukunimi=kayttaja.sukunimi;*/
         localStorage.kirjautunutKayttaja=käyttäjätunnus;
-        window.open("OmaSivu.html");
+       //window.open("OmaSivu.html");
+        location.href = "OmaSivu.html";
     }else{
         console.log("Salasana väärin!")
         window.alert("Salasana väärin, yritä uudestaan!");
