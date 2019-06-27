@@ -22,11 +22,15 @@ li:hover {
 }
 
 .navbar-brand {
-
     padding-bottom: 0px !important;
     padding-top: 3px !important;
-
-
+}
+.well{
+    padding: 0px;
+}
+#btn{
+    color:white;
+    background-color: forestgreen;
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -36,6 +40,7 @@ li:hover {
 
 /* Set gray background color and 100% height */
 .sidenav {
+    margin-top: 15px;
     padding-top: 20px;
     background-color: #f1f1f1;
     height: 100%;
@@ -50,6 +55,14 @@ footer {
 }
 .lomake{
     font-family: Arial, Helvetica, sans-serif;
+}
+.haku{
+    border: forestgreen 1px solid;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-top: 15px;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
