@@ -62,7 +62,7 @@ function printtaa(syy) {
                     for (s of syyKoodit)
                         if (selittely === s.detailedCategoryCode) {
                             selittely = s.detailedCategoryName;
-                            myohassa.innerHTML += "<tr><td>" + j.trainType + " juna "+ j.trainNumber+""+j.timeTableRows[i].stationShortCode+" </td><td>" + selittely + "</td></tr>"
+                            myohassa.innerHTML += "<tr><td>" + j.trainType + " juna "+ j.trainNumber+" </td><td>" + selittely + "</td><td>"+j.timeTableRows[i].differenceInMinutes+"</td></tr>"
                         }
 
                 }
