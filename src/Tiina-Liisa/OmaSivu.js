@@ -19,4 +19,7 @@ function haeEtunimentiedot() {
         window.alert("Antamasi salasanat eivät täsmää, yritä uudelleen!");*/
 
 }
-haeEtunimentiedot()
+function avaaSivu() {
+    localStorage.kirjautunutKayttaja="";
+    location.href = "Login.html";
+}
