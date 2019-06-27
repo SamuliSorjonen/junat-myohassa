@@ -1,66 +1,134 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Omasivu</title>
+    <title>Etusivu</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!--override some bootstrap styles-->
+    <link rel="stylesheet" href="Login.css">
+    <link rel="stylesheet" href="../frontpage/custom.css">
+    <link rel="stylesheet" href="../../static/style.css">
     <link rel="stylesheet" href="OmaSivu.css">
+
 
 </head>
 <body>
-<ul>
-    <li><a href="../frontpage/index.html">Etusivu</a></li>
-    <li><a class="active"  href="#Omat tiedot">Omat tiedot</a></li>
-    <li><a href="#Omat liput">Omat liput</a></li>
-    <li><a href="Suosikit.html">Suosikit</a></li>
-    <li class="ulos" onclick="avaaSivu()"><a href="../frontpage/index.html">Kirjaudu ulos</a></li>
-</ul>
-<div>
-<h1 id="tervehdys"></h1>
-</div>
-<hr>
-<form>
-    <div class="container">
-        <h2>Omat tiedot</h2>
 
-        <p>Alla näet antamasi tiedot, joita voit muuttaa halutessasi.
-            Muutoksen yhteydessä hyväksy myös asiakkuuden ehdot sivun alalaidassa.
-            Tähdellä (*) merkityt kentät ovat pakollisia. Muista lopuksi tallentaa tietosi.</p>
+<!--navbar starts-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index.html"><img src="../../logovalk.png" height="51" width="200"/></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li ><a href="../../index.html">Etusivu</a></li>
+                <li><a href="src/departures/index.html">Asemahaku</a></li>
+                <li><a href="src/map/map.html">Junat kartalla</a></li>
+                <li><a href="src/frontpage/juna.html">Ekstrat</a></li>
+                <li class="omavari" class="active"><a href="OmaSivu.html">Omat tiedot</a></li>
+                <li><a href="Suosikit.html">Suosikit</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../../index.html"><span class="glyphicon glyphicon-log-out"></span> Kirjaudu
+                    ulos</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--navbar ends-->
 
-        <hr>
-        <h2>Käyttäjätunnus ja salasana</h2>
-        <label for="Sähköposti"><b>Sähköpostiosoite *</b></label>
-        <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi, joka toimii käyttäjätunnuksenasi." name="email" required>
+<!-- main container starts-->
+<div class="container-fluid text-center">
+    <div class="row content">
 
-        <label for="Salasana"><b>Salasana *</b></label>
-        <input id="salasana" type="password" placeholder="Kirjoita salasana" name="psw" required>
+        <!--middle container starts-->
+        <div class="col-sm-10 text-left">
+            <div>
+                <h1 id="tervehdys"></h1>
+            </div>
+            <hr>
+            <form>
+                <div class="container">
+                    <h2>Omat tiedot</h2>
 
-        <label  for="SalasanaUudelleen"><b>Salasana uudelleen *</b></label>
-        <input id="SalasanaUudelleen" type="password" placeholder="Vahvista salasana." name="psw-repeat" required>
-        <hr>
-        <h2>Henkilötiedot</h2>
-        <label for="Etunimi"><b>Etunimi</b></label>
-        <input id="etunimi" type="text" placeholder="Kirjoita etunimesi" name="etunimi" required>
+                    <p>Alla näet antamasi tiedot, joita voit muuttaa halutessasi.
+                        Muutoksen yhteydessä hyväksy myös asiakkuuden ehdot sivun alalaidassa.
+                        Tähdellä (*) merkityt kentät ovat pakollisia. Muista lopuksi tallentaa tietosi.</p>
 
-        <label for="Sukunimi"><b>Sukunimi</b></label>
-        <input id="sukunimi" type="text" placeholder="Kirjoita sukunimesi" name="sukunimi" required>
+                    <hr>
+                    <h2>Käyttäjätunnus ja salasana</h2>
+                    <label for="Sähköposti"><b>Sähköpostiosoite *</b></label>
+                    <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi, joka toimii käyttäjätunnuksenasi." name="email" required>
 
-        <label for="Osoite"><b>Osoite</b></label>
-        <input id="osoite" type="text" placeholder="Kirjoita osoitteesi" name="sukunimi" required>
+                    <label for="Salasana"><b>Salasana *</b></label>
+                    <input id="salasana" type="password" placeholder="Kirjoita salasana" name="psw" required>
 
-        <label for="Postinumero"><b>Postinumero *</b></label>
-        <input id="postinumero" type="text" placeholder="Kirjoita postinumerosi" name="sukunimi" required>
+                    <label  for="SalasanaUudelleen"><b>Salasana uudelleen *</b></label>
+                    <input id="SalasanaUudelleen" type="password" placeholder="Vahvista salasana." name="psw-repeat" required>
+                    <hr>
+                    <h2>Henkilötiedot</h2>
+                    <label for="Etunimi"><b>Etunimi</b></label>
+                    <input id="etunimi" type="text" placeholder="Kirjoita etunimesi" name="etunimi" required>
 
-        <label for="Puhelinnumero"><b>Puhelinnumero</b></label>
-        <input id="puhelinnumero" type="text" placeholder="Kirjoita puhelinnumerosi" name="sukunimi" required>
+                    <label for="Sukunimi"><b>Sukunimi</b></label>
+                    <input id="sukunimi" type="text" placeholder="Kirjoita sukunimesi" name="sukunimi" required>
 
-        <hr>
+                    <label for="Osoite"><b>Osoite</b></label>
+                    <input id="osoite" type="text" placeholder="Kirjoita osoitteesi" name="sukunimi" required>
+
+                    <label for="Postinumero"><b>Postinumero *</b></label>
+                    <input id="postinumero" type="text" placeholder="Kirjoita postinumerosi" name="sukunimi" required>
+
+                    <label for="Puhelinnumero"><b>Puhelinnumero</b></label>
+                    <input id="puhelinnumero" type="text" placeholder="Kirjoita puhelinnumerosi" name="sukunimi" required>
+
+                    <hr>
 
 
-        <button type="button" class="registerbtn" onclick="save('sähköposti', 'salasana', 'etunimi', 'sukunimi')">Tallenna</button>
+                    <button type="button" class="registerbtn" onclick="save('sähköposti', 'salasana', 'etunimi', 'sukunimi')">Tallenna</button>
+
+                </div>
+
+            </form>
+
+
+            <!--break-->
+            <hr/>
+
+
+        </div>
+        <!--middle container ends-->
+
+
+        <!--sidenav adds begin-->
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <img src="../../alogo.png" height="173" width="520" class="img-responsive"/>
+            </div>
+            <div class="well">
+                <img src="../../amainos.png" height="581" width="450" class="img-responsive"/></div>
+        </div>
+        <!--sidenav ends-->
 
     </div>
+</div>
+<!--main container ends -->
 
-</form>
+<!-- footer -->
+<footer class="container-fluid text-center">
+    <p>&reg; Pulli, Sorjonen, Välimaa, Wonnemann</p>
+</footer>
+<!--footer ends-->
+
+<!--script -->
 <script src="OmaSivu.js"></script>
 </body>
 </html>
