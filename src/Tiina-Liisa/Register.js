@@ -1,5 +1,8 @@
 function save() {
     console.log("Save")
+// haetaan käyttäjätunnus (sähköposti) etc. html lomakkeesta.
+    var käyttäjätunnus = document.getElementById("sähköposti").value;
+    console.log(käyttäjätunnus)
     var emailValue = document.getElementById('sähköposti').value;
     console.log(emailValue);
     var salasanaValue = document.getElementById('salasana').value;
@@ -10,31 +13,22 @@ function save() {
     console.log(etunimiValue);
     var sukunimiValue = document.getElementById('sukunimi').value;
     console.log(sukunimiValue);
-    //Täällä pitäisi tsekata, että salasanat samat, ehkä salasanan vahvuus?
-    var kayttajaJSON=`{"salasana":"${salasanaValue}", "etunimi":"${etunimiValue}", "sukunimi":"${sukunimiValue}"}`;
-    localStorage.setItem(emailValue, kayttajaJSON)
+    // asetetaan käyttäjätunnukselle JSONin avulla arvoksi salasana, etunimi ja sukunimi.
+    var kayttajaJSON = `{"salasana":"${salasanaValue}", "etunimi":"${etunimiValue}", "sukunimi":"${sukunimiValue}"}`;
+    localStorage.setItem(emailValue, kayttajaJSON);
 
-    if(salasanaValue===salasanaUudelleenValue){
+    //tarkistetaan onko salasana oikein.
+    if (salasanaValue == salasanaUudelleenValue) {
         console.log("Olet nyt rekisteröitynyt!");
-        window.open("OmaSivu.html");
-    }else {
+        /*sessionStorage.kirjautunut=käyttäjätunnus;
+        sessionStorage.etunimi=kayttaja.etunimi;
+        sessionStorage.sukunimi=kayttaja.sukunimi;*/
+        localStorage.kirjautunutKayttaja=emailValue;
+        //window.open("OmaSivu.html");
+        location.href = "OmaSivu.html";
+    } else {
         console.log("Antamasi salasanat eivät täsmää!")
         window.alert("Antamasi salasanat eivät täsmää, yritä uudelleen!");
         //window.open("Register.html");
     }
-    // localStorage.setItem('button')
-
 }
-/*function load() {
-    var storageValue = localStorage.getItem('text')
-
-}
-
-if (typeof(Storage) !== "undefined") {
-    // Store
-    localStorage.setItem("sukunimi", "Smith");
-    // Retrieve
-    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
-} else {
-    document.getElementById("result").innerHTML = "Valitettavasti selaimesi ei tue nettitallenusta...";
-}*/

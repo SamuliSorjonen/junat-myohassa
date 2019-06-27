@@ -17,22 +17,22 @@
         <label for="sähköposti"><b>Käyttäjätunnus</b></label>
         <input id="sähköposti" type="text" placeholder="Kirjoita käyttäjätunnus" name="uname"  required>
 
-        <label for="password"><b>Salasana</b></label>
-        <input id="password" type="password" placeholder="Kirjoita salasana" name="psw" required>
+        <label for="salasana"><b>Salasana</b></label>
+        <input id="salasana" type="password" placeholder="Kirjoita salasana" name="psw" required>
 
         <button type="button" onclick="avaaSivu()" >Kirjaudu</button>
 
 
 
         <label>
-            <input type="checkbox" checked="checked" name="Muista minut"> Muista minut
+            <input type="checkbox" name="Muista minut"> Muista minut
         </label>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
         <input type="button" value="Rekisteröidy" onclick="rekisteröidy()">
-        <button type="button" class="cancelbtn">Peruuta</button>
-        <span class="psw">Unohditko <a href="#">salasanan?</a></span>
+        <button type="button" onclick="peruuta()" class="cancelbtn">Peruuta</button>
+        <span class="psw">Unohditko <a onclick="hassua()" href="#">salasanan?</a></span>
     </div>
 </form>
 <script src="Login.js"></script>

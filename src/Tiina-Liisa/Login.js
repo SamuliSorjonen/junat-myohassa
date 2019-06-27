@@ -1,34 +1,50 @@
 
 function rekisteröidy() {
-    window.open("Register.html")
+    location.href="Register.html";
 }
+var käyttäjätunnus;
+var kayttaja;
 
 function avaaSivu() {
 
-    var käyttäjätunnus=document.getElementById("sähköposti").value;
+     käyttäjätunnus=document.getElementById("sähköposti").value;
     console.log(käyttäjätunnus)
 
 
-    var salasanayritys=document.getElementById("password").value;
-    console.dir(document.getElementById("password"));
+    var salasanayritys=document.getElementById("salasana").value;
+    console.dir(document.getElementById("salasana"));
 //Parsitaan käyttäjätiedot storagesta:
-    var kayttaja=JSON.parse(localStorage.getItem(käyttäjätunnus));
-    //var tallennettusalasana=localStorage.getItem(käyttäjätunnus);
-    var tallennettusalasana=kayttaja.salasana;
+     kayttaja=JSON.parse(localStorage.getItem(käyttäjätunnus));
+    // tallennettusalasana = localStorage.getItem(salasana);
+    tallennettusalasana = kayttaja.salasana
+    //tallennettusalasana=localStorage.getItem(salasana);
+    //var tallennettusalasana=kayttaja.salasana;
     console.log(tallennettusalasana);
 
     //var etunimi = document.getElementById("etunimi").value;
     //console.log(etunimi)
 
-    if(salasanayritys===tallennettusalasana){
-        console.log("Kirjauduttu!");
-        sessionStorage.kirjautunut=käyttäjätunnus;
+    //if(salasanayritys==tallennettusalasana){
+    if (tallennettusalasana===salasanayritys) {
+        console.log("kirjautuminen onnistui!");
+        /*sessionStorage.kirjautunut=käyttäjätunnus;
         sessionStorage.etunimi=kayttaja.etunimi;
-        sessionStorage.sukunimi=kayttaja.sukunimi;
-        window.open("OmaSivu.html");
+        sessionStorage.sukunimi=kayttaja.sukunimi;*/
+        localStorage.kirjautunutKayttaja=käyttäjätunnus;
+       //window.open("OmaSivu.html");
+        location.href = "OmaSivu.html";
     }else{
         console.log("Salasana väärin!")
         window.alert("Salasana väärin, yritä uudestaan!");
 
     }
+}
+
+function peruuta() {
+    //tähän linkki etusivulle
+    location.href = "OmaSivu.html";
+}
+
+function hassua() {
+location.href = "https://en.wiktionary.org/wiki/hassua"
 }
