@@ -1,4 +1,4 @@
-body {
+.col-sm-10{
     font-family: Arial, Helvetica, sans-serif;
 }
 ul {
@@ -6,7 +6,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #4CAF50;
+    background-color: forestgreen;
 }
 
 li {
@@ -23,7 +23,7 @@ li a {
 }
 
 li a:hover:not(.active) {
-    background-color: #3c803b;
+    background-color: forestgreen;
 }
 
 .active {
