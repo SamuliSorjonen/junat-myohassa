@@ -1,6 +1,6 @@
 
 function rekisteröidy() {
-    window.open("Register.html")
+    location.href="Register.html";
 }
 var käyttäjätunnus;
 var kayttaja;

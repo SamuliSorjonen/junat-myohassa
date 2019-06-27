@@ -1,6 +1,6 @@
 function haeEtunimentiedot() {
     var kirjautunut = localStorage.kirjautunutKayttaja;
-    var kayttajaTiedot=JSON.parse(localStorage.getItem(kirjautunut));
+    var kayttajaTiedot = JSON.parse(localStorage.getItem(kirjautunut));
     console.dir(kayttajaTiedot);
     //var etunimi = sessionStorage.etunimi;
     console.log("etunimi");
@@ -17,9 +17,11 @@ function haeEtunimentiedot() {
     }else {
         console.log("Antamasi salasanat eivät täsmää!")
         window.alert("Antamasi salasanat eivät täsmää, yritä uudelleen!");*/
+}
 
-}
-function avaaSivu() {
-    localStorage.kirjautunutKayttaja="";
-    location.href = "Login.html";
-}
+    haeEtunimentiedot();
+
+    function avaaSivu() {
+        localStorage.kirjautunutKayttaja = "";
+        location.href = "Login.html";
+    }
