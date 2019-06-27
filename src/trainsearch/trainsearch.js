@@ -93,6 +93,10 @@ function kasitteletulos(tulos) {
         }
         var maaraasema = stationsOrg[vikarivi.stationShortCode];
         if (!maaraasema) maaraasema = vikarivi.stationShortCode;
+
+        maaraasema = stationsOrg[stationShorts.indexOf(maaraasema)];
+        maaraasema = cleanStationName(maaraasema);
+
         // arrival time to destination
         for (var ind = 1; ind < juna.timeTableRows.length; ++ind) {
             if (juna.timeTableRows[ind].stationShortCode === arrivalStation) {
@@ -146,6 +150,13 @@ function haedata() {
     departureStation = stationShorts[stationsOrg.indexOf(departureStation)];
     xhr.open('get', baseurl + departureStation + "/" + arrivalStation + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
     xhr.send();
+}
+
+function cleanStationName(name) {
+    name = name.replace("asema", "")
+    name = name.replace("_(Finljandski)", "")
+    name = name.replace("Lento", "Lentokenttä")
+    return name;
 }
 
 
