@@ -38,8 +38,8 @@ arrivalLink.innerHTML = '<a href="?city=' + city + '"> Saapuvat </a>';
 function getVr() {
     fetch(url)
         .then(response => response.json())
-        .then(response => response.filter(value => value.trainCategory !== "Shunting"))
-        .then(response => response.filter(value => value.trainCategory !== "Cargo"))
+        .then(response => response.filter(value => value.trainCategory == "Commuter" || value.trainCategory == "Long-distance"))
+        // .then(response => response.filter(value => value.trainCategory == "Long-distance"))
         .then(response => response.sort((a, b) =>
             new Date(b.timeTableRows[findCurrentStation(b)].scheduledTime) - new Date(a.timeTableRows[findCurrentStation(a)].scheduledTime)))
         .then(response => renderData(response))
@@ -64,13 +64,17 @@ function renderData(data) {
     traindata = data.map(x => x)
     currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
     data.map(function (data) {
-        let currentStationIndex = findCurrentStation(data);
+        // let currentStationIndex = findCurrentStation(data);
+        let currentStationIndex = 0;
         let lastIndexOfTimeTable;
 
+        if (city === "HKI" && data.commuterLineID === "P" || data.commuterLineID === "I") {
+            currentStationIndex = handlePTrain(data.timeTableRows, 1)
+        }
         if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
-            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex);
         } else if (data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
-            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
+            lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex);
         } else {
             lastIndexOfTimeTable = data.timeTableRows.length - 1;
         }
@@ -81,11 +85,11 @@ function renderData(data) {
 
         let a = data.timeTableRows[currentStationIndex].scheduledTime;
         let scheduledTime = new Date(a).toLocaleString("fi", optiot);
-        ;
+
 
         let b = data.timeTableRows[currentStationIndex].liveEstimateTime;
         let estimatedTime = new Date(b).toLocaleString("fi", optiot);
-        ;
+
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
         // console.log(data)
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
@@ -114,8 +118,8 @@ function renderData(data) {
         cell1.innerHTML = '<a href="../YksittainenJuna/Juna.html?numero=' + data.trainNumber + '">'
             + commuterOrNot + '</a>';
 
-        cell3.innerHTML = '<a href="?city=' + data.timeTableRows[lastIndexOfTimeTable].stationShortCode + '">'
-            + lastStationName + '</a>';
+        cell3.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
+            + stationName + '</a>';
         cell4.innerHTML = scheduledTime
         cell5.innerHTML = arrivalTime
         cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
