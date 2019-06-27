@@ -12,6 +12,9 @@ const stationShorts = [];
 
 const stationDatalist = document.getElementById("stations")
 
+/*Fetches json-data of trainstation shortcodes and corresponding station names
+* Use: each city's index in array stations is equal to array stationShorts
+* (also renders datalist for reasons unknown) */
 function getStationsToArray() {
     fetch('https://rata.digitraffic.fi/api/v1/metadata/stations')
         .then((response) => response.json())
@@ -36,7 +39,13 @@ const arrivalLink = document.getElementById("arrival")
 departureLink.innerHTML = '<a href="../departures/?city=' + city + '"> Lähtevät </a>';
 arrivalLink.innerHTML = '<a href="?city=' + city + '"> Saapuvat </a>';
 
-
+/*
+* Fetches data from (digitraffic.fi)
+* Filters out not passenger trains
+* Sorts by time ascending
+* Renders data to html
+* @param url
+*/
 function getVr() {
     fetch(url)
         .then(response => response.json())
@@ -49,6 +58,10 @@ function getVr() {
         .catch(error => console.log(error));
 }
 
+/*
+* findCurrentStation() is function to find index of current station (page currently at)
+* @param json data
+* @return index of station currently showing, use with data.timetablerows[]*/
 function findCurrentStation(data) {
     let currentStationIndex = 0;
     for (let i = 0; i < data.timeTableRows.length; i++) {
@@ -60,11 +73,14 @@ function findCurrentStation(data) {
     return currentStationIndex;
 }
 
-let traindata = [];
-
+/* Funtion for rendering data to html
+* Creates table with 6 rows,
+* TODO: clean horribad code
+*
+* @param json data
+* @return table to html*/
 function renderData(data) {
     trainTable.innerHTML = ""
-    // traindata = data.map(x => x)
     console.log(data)
     currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)]) + "</a>";
     data.map(function (data) {
@@ -130,6 +146,11 @@ function renderData(data) {
     })
 }
 
+/*
+* cleanStationName() is helperfunction to clean abnormal station names
+* @param Station name
+* @return cleaned station name
+* */
 function cleanStationName(name) {
     name = name.replace("asema", "")
     name = name.replace("_(Finljandski)", "")
@@ -137,7 +158,13 @@ function cleanStationName(name) {
     return name;
 }
 
-
+/*
+* handlePTrain() is helper function to handle circle lines I & P
+* which returns incorrect arrival and/or departurestations if not handled
+* @param json.timeTableRows
+* @param index of current station/page currently at in arrays stationsShorts & stations
+* @return index of Lentokenttä or if in way back, index of last station (Helsinki)
+* */
 function handlePTrain(data, index) {
     for (let i = index; i < data.length; i++) {
         if (data[i].stationShortCode === "LEN") {
@@ -149,19 +176,19 @@ function handlePTrain(data, index) {
     return data.length - 1;
 }
 
-
+/*
+* haedata() binded to search button in html
+* takes value from datalist-text area
+* redirects to new page with station shorcode as parameter*/
 function haedata() {
     let stationInForm = document.getElementById("stationDatalist").value;
     let station = stationShorts[stations.indexOf(stationInForm)];
-    // document.getElementById("stationDatalist").value = station;
-    // city = station;
     window.location.href = "?city=" + station;
-    // getVr();
-    // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
-    // xhr.send();
 }
 
-
+/*
+* renderDatalist() fills datalist in hmtl
+* with every station in array stationShorts/stations */
 function renderDatalist() {
     stationShorts.forEach(function (station) {
 
