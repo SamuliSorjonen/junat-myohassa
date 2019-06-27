@@ -4,9 +4,13 @@ var syyKoodit=[];
 var input = '';
 document.getElementById("paiva").addEventListener("change", function () {
     input = this.value;
+    requested = new Date(input)
+    today = new Date();
     var taulu = document.getElementById("trainTable")
-    if (taulu.hasChildNodes()){
-    taulu.innerHTML=''}
+    taulu.innerHTML=''
+    if (requested >= today){
+        taulu.innerHTML= "Älä kysele tulevaa!";
+    }
     console.log(input)
     console.log(input); //e.g. 2015-11-13
     haeSyyt()});
@@ -45,26 +49,28 @@ function readystagechangetoka() {
 }
 
 function printtaa(syy) {
-    var myohassa = document.getElementById("myohassa")
+    var myohassa = document.getElementById("trainTable")
     for (j of syy) {
-        for (var i = 0; j.timeTableRows.length; i++)
-        if (j.timeTableRows[i].causes.length>0){
-            console.log(j.timeTableRows[i].causes);
-            var selitys = [];
-            selitys = j.timeTableRows[i].causes;
-        for (se of selitys) {
-            var selitys = se.detailedCategoryCode;
-            for (s of syyKoodit)
-                if (selitys === s.detailedCategoryCode)
-            {
-                selitys = s.detailedCategoryName;
-                myohassa.innerHTML += "<td>"+j.trainType+" juna </td><td>" + selitys + "</td>"
-            }
-        }
-        }
+        console.log("tulostus");
+        for (var i = 0;i< j.timeTableRows.length; i++)
+            if (j.timeTableRows[i].causes.length > 0) {
+                console.log(j.timeTableRows[i].causes);
+                var selitys = [];
+                selitys = j.timeTableRows[i].causes;
+                for (se of selitys) {
+                    var selittely = se.detailedCategoryCode;
+                    for (s of syyKoodit)
+                        if (selittely === s.detailedCategoryCode) {
+                            selittely = s.detailedCategoryName;
+                            myohassa.innerHTML += "<tr><td>" + j.trainType + " juna "+ j.trainNumber+""+j.timeTableRows[i].stationShortCode+" </td><td>" + selittely + "</td></tr>"
+                        }
 
+                }
+            }
     }
 }
+
+
 
 
 
