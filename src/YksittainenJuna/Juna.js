@@ -9,7 +9,7 @@ const numero = searchParams.get("numero");
 function hae(){
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange=readystagechange;
-    xhr.open("GET", "https://rata.digitraffic.fi/api/v1/trains/latest/1"+numero);
+    xhr.open("GET", "https://rata.digitraffic.fi/api/v1/trains/latest/"+numero);
     xhr.send();
 }
 function readystagechange() {
