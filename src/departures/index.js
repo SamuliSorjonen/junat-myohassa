@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getStationsToArray();
 }, false);
 
-/*Parse station code from URI-params*/
+// Parse station code from URI-params
 let paramsString = window.location.search;
 let searchParams = new URLSearchParams(paramsString);
 let city = searchParams.get("city");
@@ -14,7 +14,8 @@ const stations = [];
 const stationShorts = [];
 
 /*Fetches json-data of trainstation shortcodes and corresponding station names
-* Use: each citys index in const stations is equal to const stationShorts */
+* Use: each city's index in array stations is equal to array stationShorts
+* (also renders datalist for reasons unknown) */
 function getStationsToArray() {
     fetch('https://rata.digitraffic.fi/api/v1/metadata/stations')
         .then((response) => response.json())
@@ -30,17 +31,17 @@ function getStationsToArray() {
 
 let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station=' + city;
 
-const currentCity = document.getElementById("city")
+const currentCity = document.getElementById("city");
 const trainTable = document.getElementById("trainTable");
-const departureLink = document.getElementById("departure")
+const departureLink = document.getElementById("departure");
 
-const arrivalLink = document.getElementById("arrival")
+const arrivalLink = document.getElementById("arrival");
 
 departureLink.innerHTML = '<a href="?city=' + city + '"> Lähtevät </a>';
 arrivalLink.innerHTML = '<a href="../arrivals/?city=' + city + '"> Saapuvat </a>';
 
 /*
-* Fetches data url (digitraffic.fi)
+* Fetches data from (digitraffic.fi)
 * Filters out not passenger trains
 * Sorts by time ascending
 * Renders data to html
@@ -57,7 +58,8 @@ function getVr() {
         .catch(error => console.log(error));
 }
 
-/*Helper funtion to find index of current station (page currently at)
+/*
+* findCurrentStation() is function to find index of current station (page currently at)
 * @param json data
 * @return index of station currently showing, use with data.timetablerows[]*/
 function findCurrentStation(data) {
@@ -74,6 +76,7 @@ function findCurrentStation(data) {
 
 /* Funtion for rendering data to html
 * Creates table with 6 rows,
+* TODO: clean horribad code
 *
 * @param json data
 * @return table to html*/
@@ -141,7 +144,7 @@ function renderData(data) {
 }
 
 /*
-* Helper function to clean abnormal station names
+* cleanStationName() is helperfunction to clean abnormal station names
 * @param Station name
 * @return cleaned station name
 * */
@@ -152,9 +155,11 @@ function cleanStationName(name) {
     return name;
 }
 
-/*Helper function to handle circle lines I & P
+/*
+* handlePTrain() is helper function to handle circle lines I & P
+* which returns incorrect arrival and/or departurestations if not handled
 * @param json.timeTableRows
-* @param index of current station in arrrays stationsShorts & stations
+* @param index of current station/page currently at in arrays stationsShorts & stations
 * @return index of Lentokenttä or if in way back, index of last station (Helsinki)
 * */
 function handlePTrain(data, index) {
@@ -168,26 +173,25 @@ function handlePTrain(data, index) {
     return data.length - 1;
 }
 
+/*
+* haedata() binded to search button in html
+* takes value from datalist-text area
+* redirects to new page with station shorcode as parameter*/
 function haedata() {
     let stationInForm = document.getElementById("stationDatalist").value;
-    console.log(stationInForm)
     let station = stationShorts[stations.indexOf(stationInForm)];
-    console.log(station)
-    // document.getElementById("stationDatalist").value = station;
+    document.getElementById("stationDatalist").value = station;
     city = station;
-    // window.location.href = "?city=" + city;
-    getVr();
-    // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
-    // xhr.send();
+    window.location.href = "?city=" + city;
 }
 
-
+/*
+* renderDatalist() fills datalist in hmtl
+* with every station in array stationShorts/stations */
 function renderDatalist() {
     stationShorts.forEach(function (station) {
-
         let option = document.createElement("option")
         option.value = stations[stationShorts.indexOf(station)]
-
         stationDatalist.appendChild(option)
     })
 }

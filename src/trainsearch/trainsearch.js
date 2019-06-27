@@ -95,7 +95,7 @@ function kasitteletulos(tulos) {
         if (!maaraasema) maaraasema = vikarivi.stationShortCode;
 
         maaraasema = stationsOrg[stationShorts.indexOf(maaraasema)];
-        maaraasema = cleanStationName(maaraasema);
+        let maaraasemaCleaned = cleanStationName(maaraasema);
 
         // arrival time to destination
         for (var ind = 1; ind < juna.timeTableRows.length; ++ind) {
@@ -118,7 +118,9 @@ function kasitteletulos(tulos) {
 
         solut.push(junatyyppitd);
         var junatunnustd = document.createElement("td");
-        junatunnustd.innerText = junatunnus;
+        junatunnustd.innerHTML = '<a href="src/YksittainenJuna/Juna.html?numero=' + juna.trainNumber + '">' + junatunnus + '</a>'
+        // junatunnustd.innerText = junatunnus;
+        // junatunnustd.setAttribute("href", "../YksittainenJuna/Juna.html?numero=" + juna.trainNumber);
         solut.push(junatunnustd);
         var lahteetd = document.createElement("td");
         lahteetd.innerText = lahtoaikaAsemalta;
@@ -128,7 +130,8 @@ function kasitteletulos(tulos) {
         solut.push(perillatd);
         solut.push(document.createElement("td"));
         var maaraasematd = document.createElement("td");
-        maaraasematd.innerText = maaraasema;
+        maaraasematd.innerHTML = '<a href="src/departures/?city=' + vikarivi.stationShortCode + '">' + maaraasemaCleaned + '</a>'
+        // maaraasematd.innerText = maaraasema;
         solut.push(maaraasematd);
         var lahtolaituritd = document.createElement("td");
         lahtolaituritd.innerText = laituri;
