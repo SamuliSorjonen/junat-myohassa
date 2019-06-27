@@ -5,7 +5,7 @@ var paramsString = window.location.search;
 var searchParams = new URLSearchParams(paramsString);
 
 const numero = searchParams.get("numero");
-hae();
+
 function hae(){
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange=readystagechange;
@@ -52,14 +52,14 @@ function tulosta(juna) {
                 }
 
                 if (i == 0) {
-                    myTrain.innerHTML += "<td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">" +asema+"</a></td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>" +
-                        "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
+                    myTrain.innerHTML += "<tr><td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">" +asema+"</a></td><td>" + aikakaksi + "</td><td>" + aikakaksi + "</td>" +
+                        "<td>" + j.timeTableRows[i].commercialTrack + "</td></tr>"
                 }
 
                 if (j.timeTableRows[i].type === "ARRIVAL") {
 
-                    myTrain.innerHTML += "<td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">"+ asema + "</a></td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>" +
-                        "<td>" + j.timeTableRows[i].commercialTrack + "</td>"
+                    myTrain.innerHTML += "<tr><td><a href=../departures/index.html?city="+j.timeTableRows[i].stationShortCode+">"+ asema + "</a></td><td>" + aikakaksi + "</td><td>" + aikalahtotoka + "</td>" +
+                        "<td>" + j.timeTableRows[i].commercialTrack + "</td></tr>"
                 }
             }
         }
@@ -78,5 +78,8 @@ function tulosta(juna) {
             var asemat = JSON.parse(xh.responseText);
             console.dir(asemat)
             asemanimet = asemat;
+            console.log(asemanimet)
+            hae();
         }
     }
+
