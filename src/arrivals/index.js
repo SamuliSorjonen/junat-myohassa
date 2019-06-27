@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var paramsString = window.location.search;
 var searchParams = new URLSearchParams(paramsString);
+let city = searchParams.get("city");
 
-const city = searchParams.get("city");
-console.log(city)
 const stations = [];
 const stationShorts = [];
+
+const stationDatalist = document.getElementById("stations")
 
 function getStationsToArray() {
     fetch('https://rata.digitraffic.fi/api/v1/metadata/stations')
@@ -20,7 +21,7 @@ function getStationsToArray() {
                 stationShorts.push(data.stationShortCode);
             })
         })
-        .then(renderData)
+        .then(renderDatalist)
 }
 
 
@@ -39,8 +40,9 @@ arrivalLink.innerHTML = '<a href="?city=' + city + '"> Saapuvat </a>';
 function getVr() {
     fetch(url)
         .then(response => response.json())
-        .then(response => response.filter(value => value.trainCategory == "Commuter" || value.trainCategory == "Long-distance"))
-        // .then(response => response.filter(value => value.trainCategory == "Long-distance"))
+        // .then(response => response.filter(value => value.trainCategory == "Commuter" || value.trainCategory == "Long-distance"))
+        .then(response => response.filter(value => value.trainCategory !== "Shunting"))
+        .then(response => response.filter(value => value.trainCategory !== "Cargo"))
         .then(response => response.sort((a, b) =>
             new Date(b.timeTableRows[findCurrentStation(b)].scheduledTime) - new Date(a.timeTableRows[findCurrentStation(a)].scheduledTime)))
         .then(response => renderData(response))
@@ -62,25 +64,24 @@ let traindata = [];
 
 function renderData(data) {
     trainTable.innerHTML = ""
-    traindata = data.map(x => x)
-    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
+    // traindata = data.map(x => x)
+    console.log(data)
+    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)]) + "</a>";
     data.map(function (data) {
         // let currentStationIndex = findCurrentStation(data);
         let currentStationIndex = 0;
         let lastIndexOfTimeTable;
-
         if (city === "HKI" && data.commuterLineID === "P" || data.commuterLineID === "I") {
+            // if (city === "HKI" && data.commuterLineID !== "") {
             currentStationIndex = handlePTrain(data.timeTableRows, 1)
         }
-        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
+        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex);
         } else if (data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex);
         } else {
             lastIndexOfTimeTable = data.timeTableRows.length - 1;
         }
-
-        console.log(lastIndexOfTimeTable)
 
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
@@ -92,7 +93,6 @@ function renderData(data) {
         let estimatedTime = new Date(b).toLocaleString("fi", optiot);
 
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
-        // console.log(data)
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
         let arrivalTime = new Date(c).toLocaleString("fi", optiot);
 
@@ -122,8 +122,8 @@ function renderData(data) {
 
         cell3.innerHTML = '<a href="?city=' + data.timeTableRows[currentStationIndex].stationShortCode + '">'
             + stationName + '</a>';
-        cell4.innerHTML = scheduledTime
-        cell5.innerHTML = arrivalTime
+        cell4.innerHTML = scheduledTime;
+        cell5.innerHTML = arrivalTime;
         cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
         cell6.style.color = "red";
         cell7.innerHTML = data.timeTableRows[currentStationIndex].commercialTrack
@@ -152,13 +152,11 @@ function handlePTrain(data, index) {
 
 function haedata() {
     let stationInForm = document.getElementById("stationDatalist").value;
-    console.log(stationInForm)
     let station = stationShorts[stations.indexOf(stationInForm)];
-    console.log(station)
     // document.getElementById("stationDatalist").value = station;
-    city = station;
-    // window.location.href = "?city=" + city;
-    getVr();
+    // city = station;
+    window.location.href = "?city=" + station;
+    // getVr();
     // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
     // xhr.send();
 }

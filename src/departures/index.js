@@ -173,10 +173,10 @@ function haedata() {
     console.log(stationInForm)
     let station = stationShorts[stations.indexOf(stationInForm)];
     console.log(station)
-    // document.getElementById("stationDatalist").value = station;
+    document.getElementById("stationDatalist").value = station;
     city = station;
-    // window.location.href = "?city=" + city;
-    getVr();
+    window.location.href = "?city=" + city;
+    // getVr();
     // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
     // xhr.send();
 }
