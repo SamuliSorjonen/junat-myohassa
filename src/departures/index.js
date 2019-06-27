@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
 /*Parse station code from URI-params*/
 let paramsString = window.location.search;
 let searchParams = new URLSearchParams(paramsString);
-const city = searchParams.get("city");
+let city = searchParams.get("city");
 
+const stationDatalist = document.getElementById("stations")
 
 const stations = [];
 const stationShorts = [];
@@ -23,10 +24,11 @@ function getStationsToArray() {
                 stationShorts.push(data.stationShortCode);
             })
         })
+        .then(renderDatalist);
 }
 
 
-let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station='+city;
+let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station=' + city;
 
 const currentCity = document.getElementById("city")
 const trainTable = document.getElementById("trainTable");
@@ -49,7 +51,7 @@ function getVr() {
         .then(response => response.json())
         .then(response => response.filter(value => value.trainCategory !== "Shunting"))
         .then(response => response.filter(value => value.trainCategory !== "Cargo"))
-        .then( response => response.sort((a,b) =>
+        .then(response => response.sort((a, b) =>
             new Date(b.timeTableRows[findCurrentStation(b)].scheduledTime) - new Date(a.timeTableRows[findCurrentStation(a)].scheduledTime)))
         .then(response => renderData(response))
         .catch(error => console.log(error));
@@ -70,7 +72,6 @@ function findCurrentStation(data) {
 }
 
 
-
 /* Funtion for rendering data to html
 * Creates table with 6 rows,
 *
@@ -78,13 +79,13 @@ function findCurrentStation(data) {
 * @return table to html*/
 function renderData(data) {
     trainTable.innerHTML = ""
-    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
+    currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)]) + "</a>";
 
     data.map(function (data) {
         let currentStationIndex = findCurrentStation(data);
         let lastIndexOfTimeTable;
 
-        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN" ) {
+        if (data.commuterLineID === "P" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
         } else if (data.commuterLineID === "I" && data.timeTableRows[currentStationIndex].stationShortCode !== "LEN") {
             lastIndexOfTimeTable = handlePTrain(data.timeTableRows, currentStationIndex)
@@ -96,10 +97,12 @@ function renderData(data) {
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
         let a = data.timeTableRows[currentStationIndex].scheduledTime;
-        let scheduledTime = new Date(a).toLocaleString("fi", optiot);;
+        let scheduledTime = new Date(a).toLocaleString("fi", optiot);
+        ;
 
         let b = data.timeTableRows[currentStationIndex].liveEstimateTime;
-        let estimatedTime = new Date(b).toLocaleString("fi", optiot);;
+        let estimatedTime = new Date(b).toLocaleString("fi", optiot);
+        ;
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
         // console.log(data)
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
@@ -164,17 +167,27 @@ function handlePTrain(data, index) {
     }
     return data.length - 1;
 }
-// window.onscroll = function () {
-//     myFunction()
-// };
-//
-// let header = document.getElementById("myHeader");
-// let sticky = header.offsetTop;
-//
-// function myFunction() {
-//     if (window.pageYOffset > sticky) {
-//         header.classList.add("sticky");
-//     } else {
-//         header.classList.remove("sticky");
-//     }
-// }
+
+function haedata() {
+    let stationInForm = document.getElementById("stationDatalist").value;
+    console.log(stationInForm)
+    let station = stationShorts[stations.indexOf(stationInForm)];
+    console.log(station)
+    // document.getElementById("stationDatalist").value = station;
+    city = station;
+    // window.location.href = "?city=" + city;
+    getVr();
+    // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
+    // xhr.send();
+}
+
+
+function renderDatalist() {
+    stationShorts.forEach(function (station) {
+
+        let option = document.createElement("option")
+        option.value = stations[stationShorts.indexOf(station)]
+
+        stationDatalist.appendChild(option)
+    })
+}

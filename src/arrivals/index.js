@@ -20,6 +20,7 @@ function getStationsToArray() {
                 stationShorts.push(data.stationShortCode);
             })
         })
+        .then(renderData)
 }
 
 
@@ -113,6 +114,7 @@ function renderData(data) {
         let cell4 = row.insertCell(2);
         let cell5 = row.insertCell(3);
         let cell6 = row.insertCell(4);
+        let cell7 = row.insertCell(5);
 
         let commuterOrNot = (data.trainCategory === "Commuter") ? data.commuterLineID : data.trainType + data.trainNumber;
         cell1.innerHTML = '<a href="../YksittainenJuna/Juna.html?numero=' + data.trainNumber + '">'
@@ -124,6 +126,7 @@ function renderData(data) {
         cell5.innerHTML = arrivalTime
         cell6.innerHTML = (scheduledTime !== estimatedTime) ? estimatedTime : "";
         cell6.style.color = "red";
+        cell7.innerHTML = data.timeTableRows[currentStationIndex].commercialTrack
     })
 }
 
@@ -146,17 +149,27 @@ function handlePTrain(data, index) {
     return data.length - 1;
 }
 
-// window.onscroll = function () {
-//     myFunction()
-// };
-//
-// let header = document.getElementById("myHeader");
-// let sticky = header.offsetTop;
-//
-// function myFunction() {
-//     if (window.pageYOffset > sticky) {
-//         header.classList.add("sticky");
-//     } else {
-//         header.classList.remove("sticky");
-//     }
-// }
+
+function haedata() {
+    let stationInForm = document.getElementById("stationDatalist").value;
+    console.log(stationInForm)
+    let station = stationShorts[stations.indexOf(stationInForm)];
+    console.log(station)
+    // document.getElementById("stationDatalist").value = station;
+    city = station;
+    // window.location.href = "?city=" + city;
+    getVr();
+    // xhr.open('get', baseurl + departureStation + "/" + stationInForm + "?startDate=" + input + "T" + timeinput + ":00%2B03:00");
+    // xhr.send();
+}
+
+
+function renderDatalist() {
+    stationShorts.forEach(function (station) {
+
+        let option = document.createElement("option")
+        option.value = stations[stationShorts.indexOf(station)]
+
+        stationDatalist.appendChild(option)
+    })
+}
