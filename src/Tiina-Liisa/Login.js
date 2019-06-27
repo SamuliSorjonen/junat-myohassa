@@ -39,3 +39,12 @@ function avaaSivu() {
 
     }
 }
+
+function peruuta() {
+    //tähän linkki etusivulle
+    location.href = "OmaSivu.html";
+}
+
+function hassua() {
+location.href = "https://en.wiktionary.org/wiki/hassua"
+}
