@@ -13,7 +13,7 @@ const stations = [];
 const stationShorts = [];
 
 /*Fetches json-data of trainstation shortcodes and corresponding station names
-* Use: index of const stations is equal to const stationShorts */
+* Use: each citys index in const stations is equal to const stationShorts */
 function getStationsToArray() {
     fetch('https://rata.digitraffic.fi/api/v1/metadata/stations')
         .then((response) => response.json())
@@ -39,7 +39,7 @@ arrivalLink.innerHTML = '<a href="../arrivals/?city=' + city + '"> Saapuvat </a>
 
 /*
 * Fetches data url (digitraffic.fi)
-* Filters out not passanger trains
+* Filters out not passenger trains
 * Sorts by time ascending
 * Renders data to html
 * @param url
@@ -55,7 +55,7 @@ function getVr() {
         .catch(error => console.log(error));
 }
 
-/*Helper funtion to find index of current station
+/*Helper funtion to find index of current station (page currently at)
 * @param json data
 * @return index of station currently showing, use with data.timetablerows[]*/
 function findCurrentStation(data) {
@@ -69,16 +69,15 @@ function findCurrentStation(data) {
     return currentStationIndex;
 }
 
-let traindata = [];
 
-/*Funtion for rendering data to html
-/ Creates table with 6 rows,
-/
-/ @param json data
-/@return table to html*/
+
+/* Funtion for rendering data to html
+* Creates table with 6 rows,
+*
+* @param json data
+* @return table to html*/
 function renderData(data) {
     trainTable.innerHTML = ""
-    // traindata = data.map(x => x)
     currentCity.innerHTML = "<a>" + cleanStationName(stations[stationShorts.indexOf(city)])+"</a>";
 
     data.map(function (data) {
