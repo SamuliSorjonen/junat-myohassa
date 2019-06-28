@@ -1,6 +1,7 @@
 var myohaiset=[];
 var syyKoodit=[];
 
+// Code for day selection from calendar
 var input = '';
 document.getElementById("paiva").addEventListener("change", function () {
     input = this.value;
@@ -15,6 +16,7 @@ document.getElementById("paiva").addEventListener("change", function () {
     console.log(input); //e.g. 2015-11-13
     haeSyyt()});
 
+//Function fetches delay cause categories and their explanations
 function haeSyyt(){
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange=readystagechange;
@@ -31,6 +33,7 @@ function readystagechange() {
         haePaivanJunat()
     }
 }
+//Function fetches all trains of selected day
 function haePaivanJunat(){
     xh = new XMLHttpRequest();
     xh.onreadystatechange=readystagechangetoka;
@@ -47,16 +50,18 @@ function readystagechangetoka() {
         printtaa(myohaiset)
     }
 }
-
+//And finally delay causes are picked from data
 function printtaa(syy) {
     var myohassa = document.getElementById("trainTable")
     for (j of syy) {
         console.log("tulostus");
+        // Here an array within an array is put to variable "selitys"
         for (var i = 0;i< j.timeTableRows.length; i++)
             if (j.timeTableRows[i].causes.length > 0) {
                 console.log(j.timeTableRows[i].causes);
                 var selitys = [];
                 selitys = j.timeTableRows[i].causes;
+//From variable "selitys" cause codes are feched, changed into their real meaning and rendered for everyone to see
                 for (se of selitys) {
                     var selittely = se.detailedCategoryCode;
                     for (s of syyKoodit)

@@ -6,6 +6,7 @@ var searchParams = new URLSearchParams(paramsString);
 
 const numero = searchParams.get("numero");
 
+//Haetaan yksittäisen junan aikataulutiedot
 function hae(){
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange=readystagechange;
@@ -19,6 +20,7 @@ function readystagechange() {
         tulosta(junat);
     }
 }
+//Funktion renders  timetable of selected train to website
 function tulosta(juna) {
     var tyyppi;
     for (var j of juna) {
@@ -28,11 +30,13 @@ function tulosta(juna) {
             tyyppi = "Kauko";
         }
     }
+// Here function checks whether train is a local train or long distance train
     for (var j of juna) {
         var otsikko = document.getElementById("otsikko");
         otsikko.innerHTML += tyyppi + "junan " + j.trainNumber + " aikataulut päivämäärällä  " + j.departureDate + " ovat seuraavat:"
         var myTrain = document.getElementById("myTrain");
 
+//  Station name is changed from shortcode into real name.
         for (var i = 0; i < j.timeTableRows.length; i++) {
             var asema = j.timeTableRows[i].stationShortCode;
             for (a of asemanimet){
@@ -40,7 +44,7 @@ function tulosta(juna) {
                     asema = a.stationName;
                 }
             }
-
+// And finally actual timetable is rendered
             if (j.timeTableRows[i].trainStopping == true) {
                 var optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
                 aikakaksi = new Date(j.timeTableRows[i].scheduledTime).toLocaleTimeString("fi", optiot);
@@ -67,6 +71,7 @@ function tulosta(juna) {
 
     }
 }
+//Funktion fetches trainstations names
     function haeAsemanNimi(){
         xh = new XMLHttpRequest();
         xh.onreadystatechange=readystagechangetoka;
