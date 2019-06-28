@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="Storage.css">
+
+</head>
+<body>
+<form>
+    <div class="container">
+        <h1>Suosikit</h1>
+        <p>Tänne voit tallentaa omat suosikkisi; matkareittisi, junatyyppisi ja istumapaikkasi.</p>
+<h2>Suosikkireitti</h2>
+        <label for="Sähköposti"><b>Käyttäjätunnus</b></label>
+        <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi, joka tallettaa suosikkisi." name="email" required>
+
+        <label for="mista"><b>Mistä</b></label>
+<input id="mista" type="text" placeholder="mista" name="mista" required>
+
+<label for="mihin"><b>Mihin</b></label>
+<input id="mihin" type="text" placeholder="mihin" name="mihin" required>
+        <button type="button" class="registerbtn" onclick="save('sähköposti', 'mista', 'mihin')">Tallenna</button>
+<hr>
+        <div>
+            <h2 id="tervehdys"></h2>
+        </div>
+            <!--<p>Click the button to get the item value:</p>
+            <button onclick="myFunction()">Get the item value</button>
+            <p id="demo"></p>
+        </div>
+       <h2>Junatyyppi</h2>
+        <label for="Sähköposti"><b>Sähköpostiosoite</b></label>
+        <input id="sähköposti" type="text" placeholder="Kirjoita sähköpostiosoitteesi, joka toimii käyttäjätunnuksenasi." name="email" required>
+        <label for="suosikkijuna"><b>Suosikkijuna</b></label>
+        <input id="suosikkijuna" type="text" placeholder="suosikkijuna" name="suosikkijuna" required>
+<button type="button" class="registerbtn" onclick="save('sähköposti', 'suosikkijuna')">Tallenna</button>-->
+</div>
+<div id="save">
+
+
+</div>
+</form>
+<script src="Storage.js"></script>
+</body>
+</html>
