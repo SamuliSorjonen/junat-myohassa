@@ -29,7 +29,7 @@ function getStationsToArray() {
 }
 
 
-let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=50&station=' + city;
+let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=100&station=' + city;
 
 const currentCity = document.getElementById("city");
 const trainTable = document.getElementById("trainTable");
@@ -95,7 +95,6 @@ function renderData(data) {
         } else {
             lastIndexOfTimeTable = data.timeTableRows.length - 1;
         }
-        console.log(lastIndexOfTimeTable)
 
         let optiot = {hour: '2-digit', minute: '2-digit', hour12: false};
 
@@ -107,7 +106,7 @@ function renderData(data) {
         let estimatedTime = new Date(b).toLocaleString("fi", optiot);
         ;
         estimatedTime = (b === undefined) ? scheduledTime : estimatedTime
-        // console.log(data)
+
         let c = data.timeTableRows[lastIndexOfTimeTable].scheduledTime;
         let arrivalTime = new Date(c).toLocaleString("fi", optiot);
 
