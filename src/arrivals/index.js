@@ -28,7 +28,7 @@ function getStationsToArray() {
 }
 
 
-let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=50&departed_trains=0&departing_trains=0&station=' + city;
+let url = 'https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=100&departed_trains=0&departing_trains=0&station=' + city;
 
 const currentCity = document.getElementById("city")
 const trainTable = document.getElementById("trainTable");
